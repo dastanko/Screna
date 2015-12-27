@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform>AnyCPU</Platform>
+    <ProjectGuid>{23CB9ADB-BA9F-4618-BD0C-589A00A532E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Screna</RootNamespace>
+    <AssemblyName>Screna</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\CoreAudioApi\AudioCaptureClient.cs" />
+    <Compile Include="Audio\CoreAudioApi\AudioClient.cs" />
+    <Compile Include="Audio\CoreAudioApi\AudioRenderClient.cs" />
+    <Compile Include="Audio\CoreAudioApi\Enums.cs" />
+    <Compile Include="Audio\CoreAudioApi\Interfaces\IAudioCaptureClient.cs" />
+    <Compile Include="Audio\CoreAudioApi\Interfaces\IAudioClient.cs" />
+    <Compile Include="Audio\CoreAudioApi\Interfaces\IAudioRenderClient.cs" />
+    <Compile Include="Audio\CoreAudioApi\Interfaces\IMMDevice.cs" />
+    <Compile Include="Audio\CoreAudioApi\Interfaces\IMMNotificationClient.cs" />
+    <Compile Include="Audio\CoreAudioApi\Interfaces\IPropertyStore.cs" />
+    <Compile Include="Audio\CoreAudioApi\AudioDevice.cs" />
+    <Compile Include="Audio\CoreAudioApi\PropertyStore.cs" />
+    <Compile Include="Audio\AudioProviders\IAudioProvider.cs" />
+    <Compile Include="Audio\AudioProviders\WasapiCapture.cs" />
+    <Compile Include="Audio\AudioProviders\WasapiLoopbackCapture.cs" />
+    <Compile Include="Audio\AudioProviders\WaveIn.cs" />
+    <Compile Include="Audio\MmeInterop\WaveInBuffer.cs" />
+    <Compile Include="Audio\MmeInterop\MmException.cs" />
+    <Compile Include="Audio\MmeInterop\MmResult.cs" />
+    <Compile Include="Audio\MmeInterop\SupportedWaveFormat.cs" />
+    <Compile Include="Audio\MmeInterop\WaveHeader.cs" />
+    <Compile Include="Audio\MmeInterop\WaveHeaderFlags.cs" />
+    <Compile Include="Audio\MmeInterop\WaveInCapabilities.cs" />
+    <Compile Include="Audio\MmeInterop\WaveInterop.cs" />
+    <Compile Include="Audio\WaveFormat\Mp3WaveFormat.cs" />
+    <Compile Include="Audio\WaveFormat\WaveFormat.cs" />
+    <Compile Include="Audio\WaveFormat\WaveFormatEncoding.cs" />
+    <Compile Include="Audio\WaveFormat\WaveFormatExtensible.cs" />
+    <Compile Include="Audio\AudioFileWriters\IAudioFileWriter.cs" />
+    <Compile Include="Avi\RiffChunksFourCCs.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="GifWriter.cs" />
+    <Compile Include="IVideoFileWriter.cs" />
+    <Compile Include="Avi\AviWriter.cs" />
+    <Compile Include="ImageProviders\IImageProvider.cs" />
+    <Compile Include="ImageProviders\ScreenProvider.cs" />
+    <Compile Include="ImageProviders\WindowProvider.cs" />
+    <Compile Include="Audio\Lame\ILameFacade.cs" />
+    <Compile Include="Audio\Lame\Mp3EncoderLame.cs" />
+    <EmbeddedResource Include="Audio\Lame\LameFacadeImpl.cs" />
+    <Compile Include="Audio\AudioFileWriters\EncodedAudioFileWriter.cs" />
+    <Compile Include="Overlays\MouseCursor.cs" />
+    <Compile Include="Native\BaseListener.cs" />
+    <Compile Include="Native\ButtonSet.cs" />
+    <Compile Include="Native\KeyListener.cs" />
+    <Compile Include="Overlays\MouseKeyHook.cs" />
+    <Compile Include="Native\MouseListener.cs" />
+    <Compile Include="Native\Delegates.cs" />
+    <Compile Include="Native\DWMApi.cs" />
+    <Compile Include="Native\Enums.cs" />
+    <Compile Include="Native\Gdi32.cs" />
+    <Compile Include="Native\KeyEventArgsExt.cs" />
+    <Compile Include="Native\KeyPressEventArgsExt.cs" />
+    <Compile Include="Native\MouseEventExtArgs.cs" />
+    <Compile Include="Native\Structs.cs" />
+    <Compile Include="Native\User32.cs" />
+    <Compile Include="Native\WindowHandler.cs" />
+    <Compile Include="Overlays\IOverlay.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Audio\CoreAudioApi\WasapiSilenceOut.cs" />
+    <Compile Include="Audio\AudioFileWriters\WaveFileWriter.cs" />
+    <Compile Include="Audio\AudioRecorder.cs" />
+    <Compile Include="IRecorder.cs" />
+    <Compile Include="Recorder.cs" />
+    <Compile Include="UnconstrainedFrameRateGifRecorder.cs" />
+    <Compile Include="ImageProviders\ResizedImageProvider.cs" />
+    <Compile Include="ScreenShot.cs" />
+    <Compile Include="Avi\Codecs\EncodingStreamFactory.cs" />
+    <Compile Include="Audio\IAudioEncoder.cs" />
+    <Compile Include="Avi\Codecs\IVideoEncoder.cs" />
+    <Compile Include="Avi\Codecs\MotionJpegVideoEncoderWpf.cs" />
+    <Compile Include="Avi\Codecs\Mpeg4VideoEncoderVcm.cs" />
+    <Compile Include="Avi\Codecs\SingleThreadedVideoEncoderWrapper.cs" />
+    <Compile Include="Avi\Codecs\UncompressedVideoEncoder.cs" />
+    <Compile Include="Avi\Codecs\VfwApi.cs" />
+    <Compile Include="Avi\Enums.cs" />
+    <Compile Include="Avi\FourCC.cs" />
+    <Compile Include="Avi\AviCodec.cs" />
+    <Compile Include="Avi\Output\AsyncAudioStreamWrapper.cs" />
+    <Compile Include="Avi\Output\AsyncVideoStreamWrapper.cs" />
+    <Compile Include="Avi\Output\AudioStreamWrapperBase.cs" />
+    <Compile Include="Avi\Output\AviAudioStream.cs" />
+    <Compile Include="Avi\Output\AviStreamBase.cs" />
+    <Compile Include="Avi\Output\AviStreamInfo.cs" />
+    <Compile Include="Avi\Output\AviVideoStream.cs" />
+    <Compile Include="Avi\Output\AviInternalWriter.cs" />
+    <Compile Include="Avi\Output\EncodingAudioStreamWrapper.cs" />
+    <Compile Include="Avi\Output\EncodingVideoStreamWrapper.cs" />
+    <Compile Include="Avi\Output\IAviAudioStream.cs" />
+    <Compile Include="Avi\Output\IAviAudioStreamInternal.cs" />
+    <Compile Include="Avi\Output\IAviStream.cs" />
+    <Compile Include="Avi\Output\IAviStreamInternal.cs" />
+    <Compile Include="Avi\Output\IAviStreamWriteHandler.cs" />
+    <Compile Include="Avi\Output\IAviVideoStream.cs" />
+    <Compile Include="Avi\Output\IAviVideoStreamInternal.cs" />
+    <Compile Include="Avi\Output\RiffItem.cs" />
+    <Compile Include="Avi\Output\RiffWriterExtensions.cs" />
+    <Compile Include="Avi\Output\SequentialInvoker.cs" />
+    <Compile Include="Avi\Output\VideoStreamWrapperBase.cs" />
+    <Compile Include="Avi\Structs.cs" />
+    <Compile Include="Native\UnsafeBitmap.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
