@@ -52,7 +52,7 @@ namespace Screna
             {
                 RECT r;
 
-                if (User32.GetWindowRect(WindowHandle, out r));
+                if (User32.GetWindowRect(WindowHandle, out r))
                     Rect = r.ToRectangle();
             }
 

@@ -20,8 +20,8 @@ namespace Screna
 
         public static Bitmap Capture(IntPtr WindowHandle, bool IncludeCursor = false)
         {
-            var r = new RECT();
-            User32.GetWindowRect(WindowHandle, ref r);
+            RECT r;
+            User32.GetWindowRect(WindowHandle, out r);
             var Region = r.ToRectangle();
 
             IntPtr hSrc = User32.GetWindowDC(WindowHandle),
@@ -83,7 +83,7 @@ namespace Screna
 
             if (DWMApi.DwmGetWindowAttribute(WindowHandle, DwmWindowAttribute.ExtendedFrameBounds, ref r, sizeof(RECT)) != 0)
                 // DwmGetWindowAttribute() failed, usually means Aero is disabled so we fall back to GetWindowRect()
-                User32.GetWindowRect(WindowHandle, ref r);
+                User32.GetWindowRect(WindowHandle, out r);
 
             Rectangle R = r.ToRectangle();
 
@@ -154,7 +154,7 @@ namespace Screna
 
                 if (CanResize)
                 {
-                    User32.GetWindowRect(hWnd, ref r);
+                    User32.GetWindowRect(hWnd, out r);
 
                     User32.SetWindowPos(hWnd, IntPtr.Zero, r.Left, r.Top, ResizeWidth, ResizeHeight, SetWindowPositionFlags.ShowWindow);
 
