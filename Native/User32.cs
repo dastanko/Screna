@@ -51,7 +51,7 @@ namespace Screna.Native
         public static extern IntPtr GetWindow(IntPtr hWnd, GetWindowEnum uCmd);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
+        public static extern bool GetWindowRect(IntPtr hWnd, out RECT rect);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetWindowTextLength(IntPtr hWnd);

@@ -48,11 +48,12 @@ namespace Screna
 
             Rectangle Rect = DesktopRectangle;
 
-            if (WindowHandle != DesktopHandle)
+            if (WindowHandle != DesktopHandle && WindowHandle != IntPtr.Zero)
             {
-                RECT r = new RECT();
-                User32.GetWindowRect(WindowHandle, ref r);
-                Rect = r.ToRectangle();
+                RECT r;
+
+                if (User32.GetWindowRect(WindowHandle, out r));
+                    Rect = r.ToRectangle();
             }
 
             var BMP = new Bitmap(DesktopWidth, DesktopHeight);
