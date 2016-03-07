@@ -45,8 +45,8 @@ namespace Screna.Native
             return !eDownUp.Handled;
         }
 
-        IEnumerable<KeyPressEventArgsExt> GetPressEventArgs(CallbackData data) { return KeyPressEventArgsExt.FromRawDataGlobal(data); }
+        IEnumerable<KeyPressEventArgsExt> GetPressEventArgs(CallbackData data) => KeyPressEventArgsExt.FromRawDataGlobal(data);
 
-        KeyEventArgsExt GetDownUpEventArgs(CallbackData data) { return KeyEventArgsExt.FromRawDataGlobal(data); }
+        KeyEventArgsExt GetDownUpEventArgs(CallbackData data) => KeyEventArgsExt.FromRawDataGlobal(data);
     }
 }

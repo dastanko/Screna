@@ -10,7 +10,7 @@ namespace Screna.Audio
         short vt, wReserved1, wReserved2, wReserved3;
         IntPtr pointerValue;
 
-        public string Value { get { return Marshal.PtrToStringUni(pointerValue); } }
+        public string Value => Marshal.PtrToStringUni(pointerValue);
     }
 
     struct PropertyKey

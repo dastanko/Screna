@@ -9,7 +9,7 @@ namespace Screna.Native
 
         protected HookResult Handle { get; set; }
 
-        public void Dispose() { Handle.Dispose(); }
+        public void Dispose() => Handle.Dispose();
 
         protected abstract bool Callback(CallbackData data);
     }

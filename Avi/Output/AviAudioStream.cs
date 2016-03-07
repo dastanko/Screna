@@ -37,16 +37,16 @@ namespace Screna.Avi
 
         public Task WriteBlockAsync(byte[] data, int startIndex, int length) { throw new NotSupportedException("Asynchronous writes are not supported."); }
 
-        public int BlocksWritten { get { return blocksWritten; } }
+        public int BlocksWritten => blocksWritten;
 
         static readonly FourCC Audio = new FourCC("auds");
 
-        public override FourCC StreamType { get { return Audio; } }
+        public override FourCC StreamType => Audio;
 
-        protected override FourCC GenerateChunkId() { return RIFFChunksFourCCs.AudioData(Index); }
+        protected override FourCC GenerateChunkId() => RIFFChunksFourCCs.AudioData(Index);
 
-        public override void WriteHeader() { writeHandler.WriteStreamHeader(this); }
+        public override void WriteHeader() => writeHandler.WriteStreamHeader(this);
 
-        public override void WriteFormat() { writeHandler.WriteStreamFormat(this); }
+        public override void WriteFormat() => writeHandler.WriteStreamFormat(this);
     }
 }

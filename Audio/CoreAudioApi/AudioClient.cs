@@ -73,7 +73,7 @@ namespace Screna.Audio
         /// <summary>
         /// Retrieves the maximum latency for the current stream and can be called any time after the stream has been initialized.
         /// </summary>
-        public long StreamLatency { get { return audioClientInterface.GetStreamLatency(); } }
+        public long StreamLatency => audioClientInterface.GetStreamLatency();
 
         /// <summary>
         /// Retrieves the number of frames of padding in the endpoint buffer (must initialize first)
@@ -164,18 +164,18 @@ namespace Screna.Audio
         /// <summary>
         /// Starts the audio stream
         /// </summary>
-        public void Start() { audioClientInterface.Start(); }
+        public void Start() => audioClientInterface.Start();
 
         /// <summary>
         /// Stops the audio stream.
         /// </summary>
-        public void Stop() { audioClientInterface.Stop(); }
+        public void Stop() => audioClientInterface.Stop();
 
         /// <summary>
         /// Set the Event Handle for buffer synchro.
         /// </summary>
         /// <param name="eventWaitHandle">The Wait Handle to setup</param>
-        public void SetEventHandle(IntPtr eventWaitHandle) { audioClientInterface.SetEventHandle(eventWaitHandle); }
+        public void SetEventHandle(IntPtr eventWaitHandle) => audioClientInterface.SetEventHandle(eventWaitHandle);
 
         /// <summary>
         /// Resets the audio stream
@@ -183,7 +183,7 @@ namespace Screna.Audio
         /// Resetting the stream flushes all pending data and resets the audio clock stream 
         /// position to 0. This method fails if it is called on a stream that is not stopped
         /// </summary>
-        public void Reset() { audioClientInterface.Reset(); }
+        public void Reset() => audioClientInterface.Reset();
 
         public void Dispose()
         {

@@ -49,17 +49,15 @@ namespace Screna.Native
 
     public struct CallbackData
     {
-        readonly IntPtr m_LParam, m_WParam;
-
         public CallbackData(IntPtr wParam, IntPtr lParam)
         {
-            m_WParam = wParam;
-            m_LParam = lParam;
+            WParam = wParam;
+            LParam = lParam;
         }
 
-        public IntPtr WParam { get { return m_WParam; } }
+        public IntPtr WParam { get; }
 
-        public IntPtr LParam { get { return m_LParam; } }
+        public IntPtr LParam { get; }
     }
 
     static class HookHelper
@@ -70,9 +68,9 @@ namespace Screna.Native
             LowLevelKeyboard = 13,
         }
 
-        public static HookResult HookGlobalMouse(Callback callback) { return HookGlobal(HookId.LowLevelMouse, callback); }
+        public static HookResult HookGlobalMouse(Callback callback) => HookGlobal(HookId.LowLevelMouse, callback);
 
-        public static HookResult HookGlobalKeyboard(Callback callback) { return HookGlobal(HookId.LowLevelKeyboard, callback); }
+        public static HookResult HookGlobalKeyboard(Callback callback) => HookGlobal(HookId.LowLevelKeyboard, callback);
 
         static HookResult HookGlobal(HookId hookId, Callback callback)
         {
@@ -141,11 +139,11 @@ namespace Screna.Native
             m_Procedure = procedure;
         }
 
-        public HookProcedureHandle Handle { get { return m_Handle; } }
+        public HookProcedureHandle Handle => m_Handle;
 
-        public HookProcedure Procedure { get { return m_Procedure; } }
+        public HookProcedure Procedure => m_Procedure;
 
-        public void Dispose() { m_Handle.Dispose(); }
+        public void Dispose() => m_Handle.Dispose();
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -182,21 +180,11 @@ namespace Screna.Native
             return new KeyboardState(keyboardStateNative);
         }
 
-        public byte[] GetNativeState() { return m_KeyboardStateNative; }
+        public byte[] GetNativeState() => m_KeyboardStateNative;
 
-        public bool IsDown(Keys key)
-        {
-            byte keyState = GetKeyState(key);
-            bool isDown = GetHighBit(keyState);
-            return isDown;
-        }
+        public bool IsDown(Keys key) => GetHighBit(GetKeyState(key));
 
-        public bool IsToggled(Keys key)
-        {
-            byte keyState = GetKeyState(key);
-            bool isToggled = GetLowBit(keyState);
-            return isToggled;
-        }
+        public bool IsToggled(Keys key) => GetLowBit(GetKeyState(key));
 
         byte GetKeyState(Keys key)
         {
@@ -206,8 +194,8 @@ namespace Screna.Native
             return m_KeyboardStateNative[virtualKeyCode];
         }
 
-        static bool GetHighBit(byte value) { return (value >> 7) != 0; }
+        static bool GetHighBit(byte value) => (value >> 7) != 0;
 
-        static bool GetLowBit(byte value) { return (value & 1) != 0; }
+        static bool GetLowBit(byte value) => (value & 1) != 0;
     }
 }

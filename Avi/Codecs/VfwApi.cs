@@ -66,20 +66,11 @@ namespace Screna.Avi
             fixed char szDescription[128];
             fixed char szDriver[128];
 
-            public bool SupportsQuality
-            {
-                get { return (flags & VIDCF_QUALITY) == VIDCF_QUALITY; }
-            }
+            public bool SupportsQuality => (flags & VIDCF_QUALITY) == VIDCF_QUALITY;
+            
+            public bool SupportsFastTemporalCompression => (flags & VIDCF_FASTTEMPORALC) == VIDCF_FASTTEMPORALC;
 
-            public bool SupportsFastTemporalCompression
-            {
-                get { return (flags & VIDCF_FASTTEMPORALC) == VIDCF_FASTTEMPORALC; }
-            }
-
-            public bool RequestsCompressFrames
-            {
-                get { return (flags & VIDCF_COMPRESSFRAMES) == VIDCF_COMPRESSFRAMES; }
-            }
+            public bool RequestsCompressFrames => (flags & VIDCF_COMPRESSFRAMES) == VIDCF_COMPRESSFRAMES;
 
             public string Name
             {
@@ -88,10 +79,7 @@ namespace Screna.Avi
 
             public string Description
             {
-                get
-                {
-                    fixed (char* desc = szDescription) return new string(desc);
-                }
+                get { fixed (char* desc = szDescription) return new string(desc); }
             }
         }
 

@@ -17,7 +17,7 @@ namespace Screna.Avi
             this.baseStream = baseStream;
         }
 
-        protected IAviAudioStreamInternal BaseStream { get { return baseStream; } }
+        protected IAviAudioStreamInternal BaseStream => baseStream;
         readonly IAviAudioStreamInternal baseStream;
 
         public virtual void Dispose()
@@ -43,9 +43,9 @@ namespace Screna.Avi
             return baseStream.WriteBlockAsync(data, startIndex, length);
         }
 
-        public int BlocksWritten { get { return baseStream.BlocksWritten; } }
+        public int BlocksWritten => baseStream.BlocksWritten;
 
-        public int Index { get { return baseStream.Index; } }
+        public int Index => baseStream.Index;
 
         public virtual string Name
         {
@@ -53,16 +53,16 @@ namespace Screna.Avi
             set { baseStream.Name = value; }
         }
 
-        public FourCC StreamType { get { return baseStream.StreamType; } }
+        public FourCC StreamType => baseStream.StreamType;
 
-        public FourCC ChunkId { get { return baseStream.ChunkId; } }
+        public FourCC ChunkId => baseStream.ChunkId;
 
-        public virtual void PrepareForWriting() { baseStream.PrepareForWriting(); }
+        public virtual void PrepareForWriting() => baseStream.PrepareForWriting();
 
-        public virtual void FinishWriting() { baseStream.FinishWriting(); }
+        public virtual void FinishWriting() => baseStream.FinishWriting();
 
-        public void WriteHeader() { baseStream.WriteHeader(); }
+        public void WriteHeader() => baseStream.WriteHeader();
 
-        public void WriteFormat() { baseStream.WriteFormat(); }
+        public void WriteFormat() => baseStream.WriteFormat();
     }
 }

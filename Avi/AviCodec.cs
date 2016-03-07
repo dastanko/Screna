@@ -2,9 +2,9 @@
 {
     public class AviCodec
     {
-        internal FourCC FourCC { get; private set; }
+        internal FourCC FourCC { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
         internal AviCodec(FourCC FourCC, string Name)
         {

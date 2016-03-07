@@ -75,7 +75,7 @@ namespace Screna.Audio
         /// <summary>
         /// Current Capturing State
         /// </summary>
-        public CaptureState CaptureState { get { return captureState; } }
+        public CaptureState CaptureState => captureState;
 
         /// <summary>
         /// Capturing wave format
@@ -134,7 +134,7 @@ namespace Screna.Audio
         /// <summary>
         /// To allow overrides to specify different flags (e.g. loopback)
         /// </summary>
-        protected virtual int AudioClientStreamFlags { get { return 0; } }
+        protected virtual int AudioClientStreamFlags => 0;
 
         /// <summary>
         /// Start Capturing
@@ -243,8 +243,7 @@ namespace Screna.Audio
                 packetSize = capture.GetNextPacketSize();
             }
 
-            if (DataAvailable != null)
-                DataAvailable(recordBuffer, recordBufferOffset);
+            DataAvailable?.Invoke(recordBuffer, recordBufferOffset);
         }
 
         public virtual void Dispose()
@@ -264,6 +263,6 @@ namespace Screna.Audio
             }
         }
 
-        public bool IsSynchronizable { get { return false; } }
+        public bool IsSynchronizable => false;
     }
 }

@@ -74,16 +74,16 @@ namespace Screna.Avi
             throw new NotSupportedException("Asynchronous writes are not supported.");
         }
 
-        public int FramesWritten { get { return framesWritten; } }
+        public int FramesWritten => framesWritten;
 
         static readonly FourCC Video = new FourCC("vids");
 
-        public override FourCC StreamType { get { return Video; } }
+        public override FourCC StreamType => Video;
 
-        protected override FourCC GenerateChunkId() { return RIFFChunksFourCCs.VideoFrame(Index, Codec != AviCodec.Uncompressed.FourCC); }
+        protected override FourCC GenerateChunkId() => RIFFChunksFourCCs.VideoFrame(Index, Codec != AviCodec.Uncompressed.FourCC);
 
-        public override void WriteHeader() { writeHandler.WriteStreamHeader(this); }
+        public override void WriteHeader() => writeHandler.WriteStreamHeader(this);
 
-        public override void WriteFormat() { writeHandler.WriteStreamFormat(this); }
+        public override void WriteFormat() => writeHandler.WriteStreamFormat(this);
     }
 }

@@ -162,7 +162,7 @@ namespace Screna.Audio
         /// <summary>
         /// Flushes internal encoder's buffers.
         /// </summary>
-        public int Flush(byte[] destination, int destinationOffset) { return LameFacade.FinishEncoding(destination, destinationOffset); }
+        public int Flush(byte[] destination, int destinationOffset) => LameFacade.FinishEncoding(destination, destinationOffset);
 
         /// <summary>
         /// Gets maximum length of encoded data.
@@ -174,6 +174,6 @@ namespace Screna.Audio
             return (int)Math.Ceiling(1.25 * numberOfSamples + 7200);
         }
 
-        public WaveFormat WaveFormat { get; private set; }
+        public WaveFormat WaveFormat { get; }
     }
 }

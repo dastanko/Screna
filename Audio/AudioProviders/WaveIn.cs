@@ -7,16 +7,16 @@ namespace Screna.Audio
 {
     public class WaveInDevice
     {
-        public int DeviceNumber { get; private set; }
+        public int DeviceNumber { get; }
 
         public WaveInDevice(int deviceNumber) { DeviceNumber = deviceNumber; }
 
-        public string Name { get { return GetCapabilities(DeviceNumber).ProductName; } }
+        public string Name => GetCapabilities(DeviceNumber).ProductName;
 
         /// <summary>
         /// Returns the number of Wave In devices available in the system
         /// </summary>
-        public static int DeviceCount { get { return WaveInterop.waveInGetNumDevs(); } }
+        public static int DeviceCount => WaveInterop.waveInGetNumDevs();
 
         /// <summary>
         /// Retrieves the capabilities of a waveIn device
@@ -36,7 +36,7 @@ namespace Screna.Audio
         /// </summary>
         /// <param name="waveFormat">The SupportedWaveFormat</param>
         /// <returns>true if supported</returns>
-        public bool SupportsWaveFormat(SupportedWaveFormat waveFormat) { return GetCapabilities(DeviceNumber).SupportedFormats.HasFlag(waveFormat); }
+        public bool SupportsWaveFormat(SupportedWaveFormat waveFormat) => GetCapabilities(DeviceNumber).SupportedFormats.HasFlag(waveFormat);
 
         public static IEnumerable<WaveInDevice> Enumerate()
         {
@@ -46,7 +46,7 @@ namespace Screna.Audio
                 yield return new WaveInDevice(i);
         }
 
-        public static WaveInDevice DefaultDevice { get { return new WaveInDevice(0); } }
+        public static WaveInDevice DefaultDevice => new WaveInDevice(0);
     }
 
     /// <summary>
@@ -170,8 +170,7 @@ namespace Screna.Audio
                         {
                             if (buffer.Done)
                             {
-                                if (DataAvailable != null)
-                                    DataAvailable(buffer.Data, buffer.BytesRecorded);
+                                DataAvailable?.Invoke(buffer.Data, buffer.BytesRecorded);
 
                                 buffer.Reuse();
                             }
@@ -240,6 +239,6 @@ namespace Screna.Audio
             GC.SuppressFinalize(this);
         }
 
-        public bool IsSynchronizable { get; private set; }
+        public bool IsSynchronizable { get; }
     }
 }

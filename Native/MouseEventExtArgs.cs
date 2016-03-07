@@ -38,31 +38,31 @@ namespace Screna.Native
         /// <summary>
         ///     True if event contains information about wheel scroll.
         /// </summary>
-        public bool WheelScrolled { get { return Delta != 0; } }
+        public bool WheelScrolled => Delta != 0;
 
         /// <summary>
         ///     True if event signals a click. False if it was only a move or wheel scroll.
         /// </summary>
-        public bool Clicked { get { return Clicks > 0; } }
+        public bool Clicked => Clicks > 0;
 
         /// <summary>
         ///     True if event signals mouse button down.
         /// </summary>
-        public bool IsMouseKeyDown { get; private set; }
+        public bool IsMouseKeyDown { get; }
 
         /// <summary>
         ///     True if event signals mouse button up.
         /// </summary>
-        public bool IsMouseKeyUp { get; private set; }
+        public bool IsMouseKeyUp { get; }
 
         /// <summary>
         ///     The system tick count of when the event occurred.
         /// </summary>
-        public int Timestamp { get; private set; }
+        public int Timestamp { get; }
 
         /// <summary>
         /// </summary>
-        internal Point Point { get { return new Point(X, Y); } }
+        internal Point Point => new Point(X, Y);
         
         internal static MouseEventExtArgs FromRawDataGlobal(CallbackData data)
         {

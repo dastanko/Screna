@@ -8,10 +8,10 @@ namespace Screna.Native
 
         public ButtonSet() { m_Set = MouseButtons.None; }
 
-        public void Add(MouseButtons element) { m_Set |= element; }
+        public void Add(MouseButtons element) => m_Set |= element;
 
-        public void Remove(MouseButtons element) { m_Set &= ~element; }
+        public void Remove(MouseButtons element) => m_Set &= ~element;
 
-        public bool Contains(MouseButtons element) { return (m_Set & element) != MouseButtons.None; }
+        public bool Contains(MouseButtons element) => (m_Set & element) != MouseButtons.None;
     }
 }

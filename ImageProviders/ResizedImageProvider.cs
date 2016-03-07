@@ -50,9 +50,9 @@ namespace Screna
             return ResizedBMP;
         }
 
-        public int Height { get { return TargetHeight; } }
+        public int Height => TargetHeight;
 
-        public int Width { get { return TargetWidth; } }
+        public int Width => TargetWidth;
         
         public void Dispose() { }
     }

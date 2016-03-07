@@ -16,9 +16,9 @@ namespace Screna.Avi
         IAudioProvider AudioFacade;
         byte[] VideoBuffer;
 
-        public int FrameRate { get; private set; }
-
-        public bool RecordsAudio { get { return AudioStream != null; } }
+        public int FrameRate { get; }
+        
+        public bool RecordsAudio => AudioStream != null;
         #endregion
 
         public AviWriter(string FileName,
@@ -40,7 +40,8 @@ namespace Screna.Avi
 
             CreateVideoStream(ImageProvider.Width, ImageProvider.Height, Quality, Codec);
 
-            if (AudioFacade != null) CreateAudioStream(AudioFacade, AudioEncoder);
+            if (AudioFacade != null)
+                CreateAudioStream(AudioFacade, AudioEncoder);
 
             VideoBuffer = new byte[ImageProvider.Width * ImageProvider.Height * 4];
         }
@@ -99,11 +100,7 @@ namespace Screna.Avi
                 yield return Codec;
         }
 
-        public void WriteAudio(byte[] Buffer, int Length)
-        {
-            if (AudioStream != null)
-                AudioStream.WriteBlock(Buffer, 0, Length);
-        }
+        public void WriteAudio(byte[] Buffer, int Length) => AudioStream?.WriteBlock(Buffer, 0, Length);
 
         public void Dispose()
         {

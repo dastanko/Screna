@@ -50,7 +50,7 @@ namespace Screna
 
                     if (RecordThread != null) ContinueCapturing.Set();
                 }
-                catch (Exception E) { if (RecordingStopped != null) RecordingStopped(E); }
+                catch (Exception E) { RecordingStopped?.Invoke(E); }
             })).Start(Delay);
         }
 
@@ -65,7 +65,8 @@ namespace Screna
                 if (StopCapturing != null && !StopCapturing.SafeWaitHandle.IsClosed)
                     StopCapturing.Set();
 
-                if (!RecordThread.Join(500)) RecordThread.Abort();
+                if (!RecordThread.Join(500)) 
+                    RecordThread.Abort();
 
                 RecordThread = null;
             }
@@ -120,12 +121,12 @@ namespace Screna
                 }
 
                 // Wait for the last frame is written
-                if (LastFrameWriteTask != null) LastFrameWriteTask.Wait();
+                LastFrameWriteTask?.Wait();
             }
             catch (Exception E)
             {
                 Stop();
-                if (RecordingStopped != null) RecordingStopped.Invoke(E);
+                RecordingStopped?.Invoke(E);
             }
         }
     }

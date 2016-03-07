@@ -30,14 +30,8 @@ namespace Screna.Avi
         public override void Dispose()
         {
             if (ownsEncoder)
-            {
-                var encoderDisposable = encoder as IDisposable;
-                if (encoderDisposable != null)
-                {
-                    encoderDisposable.Dispose();
-                }
-            }
-
+                (encoder as IDisposable)?.Dispose();
+            
             base.Dispose();
         }
 
@@ -46,20 +40,14 @@ namespace Screna.Avi
         public override FourCC Codec
         {
             get { return encoder.Codec; }
-            set
-            {
-                ThrowPropertyDefinedByEncoder();
-            }
+            set { ThrowPropertyDefinedByEncoder(); }
         }
 
         /// <summary> Bits per pixel. </summary>
         public override BitsPerPixel BitsPerPixel
         {
             get { return encoder.BitsPerPixel; }
-            set
-            {
-                ThrowPropertyDefinedByEncoder();
-            }
+            set { ThrowPropertyDefinedByEncoder(); }
         }
 
         /// <summary>Encodes and writes a frame.</summary>
@@ -77,6 +65,7 @@ namespace Screna.Avi
         {
             throw new NotSupportedException("Asynchronous writes are not supported.");
         }
+
         public override void PrepareForWriting()
         {
             // Set properties of the base stream

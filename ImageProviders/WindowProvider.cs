@@ -74,9 +74,9 @@ namespace Screna
             return BMP;
         }
 
-        public int Height { get { return DesktopHeight; } }
+        public int Height => DesktopHeight;
 
-        public int Width { get { return DesktopWidth; } }
+        public int Width => DesktopWidth;
 
         public void Dispose()
         {

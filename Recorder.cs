@@ -63,8 +63,7 @@ namespace Screna
                 };
 
             // Not Actually Started, Waits for ContinueThread to be Set
-            if (RecordThread != null)
-                RecordThread.Start();
+            RecordThread?.Start();
         }
 
         public void Start(int Delay = 0)
@@ -95,15 +94,13 @@ namespace Screna
             if (RecordThread != null)
                 ContinueCapturing.Reset();
 
-            if (AudioProvider != null)
-                AudioProvider.Stop();
+            AudioProvider?.Stop();
         }
 
         public void Stop()
         {
             // Resume if Paused
-            if (ContinueCapturing != null)
-                ContinueCapturing.Set();
+            ContinueCapturing?.Set();
 
             // Video
             if (RecordThread != null)

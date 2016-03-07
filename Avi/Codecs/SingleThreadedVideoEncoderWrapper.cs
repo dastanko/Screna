@@ -66,26 +66,17 @@ namespace Screna.Avi
         }
 
         /// <summary>Codec ID.</summary>
-        public FourCC Codec
-        {
-            get { return (FourCC)dispatcher.Invoke(new Func<FourCC>(() => encoder.Codec)); }
-        }
+        public FourCC Codec => dispatcher.Invoke(() => encoder.Codec);
 
         /// <summary>
         /// Number of bits per pixel in encoded image.
         /// </summary>
-        public BitsPerPixel BitsPerPixel
-        {
-            get { return (BitsPerPixel)dispatcher.Invoke(new Func<BitsPerPixel>(() => encoder.BitsPerPixel)); }
-        }
+        public BitsPerPixel BitsPerPixel => dispatcher.Invoke(() => encoder.BitsPerPixel);
 
         /// <summary>
         /// Determines the amount of space needed in the destination buffer for storing the encoded data of a single frame.
         /// </summary>
-        public int MaxEncodedSize
-        {
-            get { return (int)dispatcher.Invoke(new Func<int>(() => encoder.MaxEncodedSize)); }
-        }
+        public int MaxEncodedSize => dispatcher.Invoke(() => encoder.MaxEncodedSize);
 
         /// <summary>
         /// Encodes video frame.

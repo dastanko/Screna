@@ -62,7 +62,7 @@ namespace Screna
         public int Repeat { get; private set; }
         #endregion
 
-        public int FrameRate { get { return 1000 / DefaultFrameDelay; } }
+        public int FrameRate => 1000 / DefaultFrameDelay;
 
         public void WriteAudio(byte[] Buffer, int Count) { }
 
@@ -89,11 +89,11 @@ namespace Screna
             if (FirstFrame) FirstFrame = false;
         }
 
-        public Task WriteFrameAsync(Bitmap Image, int Delay = 0) { return Task.Factory.StartNew(() => WriteFrame(Image, Delay)); }
+        public Task WriteFrameAsync(Bitmap Image, int Delay = 0) => Task.Factory.StartNew(() => WriteFrame(Image, Delay));
 
-        public Task WriteFrameAsync(Bitmap Image) { return Task.Factory.StartNew(() => WriteFrame(Image)); }
+        public Task WriteFrameAsync(Bitmap Image) => Task.Factory.StartNew(() => WriteFrame(Image));
 
-        public bool RecordsAudio { get { return false; } }
+        public bool RecordsAudio => false;
 
         #region Write
         void InitHeader(Stream sourceGif, BinaryWriter Writer, int w, int h)

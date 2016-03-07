@@ -9,9 +9,9 @@ namespace Screna
     {
         public WindowHandler(IntPtr hWnd) { this.Handle = hWnd; }
 
-        public bool IsVisible { get { return User32.IsWindowVisible(Handle); } }
+        public bool IsVisible => User32.IsWindowVisible(Handle);
 
-        public IntPtr Handle { get; private set; }
+        public IntPtr Handle { get; }
 
         public string Title
         {

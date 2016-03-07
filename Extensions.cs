@@ -175,7 +175,7 @@ namespace Screna
                 overlay.Draw(g, Offset);
         }
 
-        public static Rectangle ToRectangle(this RECT r) { return new Rectangle(r.Left, r.Top, r.Right - r.Left, r.Bottom - r.Top); }
+        public static Rectangle ToRectangle(this RECT r) => new Rectangle(r.Left, r.Top, r.Right - r.Left, r.Bottom - r.Top);
 
         /// <summary>
         /// Creates a Transparent Bitmap from a combination of a Bitmap on a White Background and another on a Black Background
@@ -236,7 +236,7 @@ namespace Screna
             return empty ? null : final;
         }
 
-        static byte ToByte(int i) { return (byte)(i > 255 ? 255 : (i < 0 ? 0 : i)); }
+        static byte ToByte(int i) => (byte)(i > 255 ? 255 : (i < 0 ? 0 : i));
 
         internal static unsafe void Bgr32ToBgr24(byte[] source, int srcOffset, byte[] destination, int destOffset, int pixelCount)
         {

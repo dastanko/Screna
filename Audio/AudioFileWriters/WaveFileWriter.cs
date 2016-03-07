@@ -67,17 +67,17 @@ namespace Screna.Audio
         /// <summary>
         /// Number of bytes of audio in the data chunk
         /// </summary>
-        public long Length { get { return dataChunkSize; } }
+        public long Length => dataChunkSize;
 
         /// <summary>
         /// WaveFormat of this wave file
         /// </summary>
-        public WaveFormat WaveFormat { get { return format; } }
+        public WaveFormat WaveFormat => format;
 
         /// <summary>
         /// Gets the Position in the WaveFile (i.e. number of bytes written so far)
         /// </summary>
-        public long Position { get { return dataChunkSize; } }
+        public long Position => dataChunkSize;
 
         /// <summary>
         /// Appends bytes to the WaveFile (assumes they are already in the correct format)

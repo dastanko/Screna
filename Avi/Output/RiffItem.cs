@@ -8,26 +8,21 @@
         public const int ITEM_HEADER_SIZE = 2 * sizeof(uint);
 
         readonly long dataStart;
-        int dataSize;
 
         public RiffItem(long dataStart, int dataSize = -1)
         {
             this.dataStart = dataStart;
-            this.dataSize = dataSize;
+            this.DataSize = dataSize;
         }
 
-        public long DataStart { get { return dataStart; } }
+        public long DataStart => dataStart;
 
-        public long ItemStart { get { return dataStart - ITEM_HEADER_SIZE; } }
+        public long ItemStart => dataStart - ITEM_HEADER_SIZE;
 
-        public long DataSizeStart { get { return dataStart - sizeof(uint); } }
+        public long DataSizeStart => dataStart - sizeof(uint);
 
-        public int DataSize
-        {
-            get { return dataSize; }
-            set { dataSize = value; }
-        }
+        public int DataSize { get; set; }
 
-        public int ItemSize { get { return dataSize < 0 ? -1 : dataSize + ITEM_HEADER_SIZE; } }
+        public int ItemSize => DataSize < 0 ? -1 : DataSize + ITEM_HEADER_SIZE;
     }
 }

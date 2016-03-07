@@ -14,7 +14,7 @@ namespace Screna.Avi
             this.index = index;
         }
 
-        public int Index { get { return index; } }
+        public int Index => index;
 
         public string Name
         {

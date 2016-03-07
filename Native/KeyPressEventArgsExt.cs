@@ -29,12 +29,12 @@ namespace Screna.Native
         /// <summary>
         ///     True if represents a system or functional non char key.
         /// </summary>
-        public bool IsNonChar { get; private set; }
+        public bool IsNonChar { get; }
 
         /// <summary>
         ///     The system tick count of when the event occurred.
         /// </summary>
-        public int Timestamp { get; private set; }
+        public int Timestamp { get; }
 
         internal static IEnumerable<KeyPressEventArgsExt> FromRawDataGlobal(CallbackData data)
         {

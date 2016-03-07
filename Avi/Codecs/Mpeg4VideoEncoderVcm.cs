@@ -31,7 +31,7 @@ namespace Screna.Avi
         /// <summary>
         /// Default preferred order of the supported codecs.
         /// </summary>
-        public static ReadOnlyCollection<FourCC> DefaultCodecPreference { get { return defaultCodecPreference; } }
+        public static ReadOnlyCollection<FourCC> DefaultCodecPreference => defaultCodecPreference;
 
         static readonly ReadOnlyCollection<FourCC> defaultCodecPreference =
             new ReadOnlyCollection<FourCC>(
@@ -243,15 +243,15 @@ namespace Screna.Avi
         #region IVideoEncoder Members
 
         /// <summary>Video codec.</summary>
-        public FourCC Codec { get { return outBitmapInfo.Compression; } }
+        public FourCC Codec => outBitmapInfo.Compression;
 
         /// <summary>Number of bits per pixel in the encoded image.</summary>
-        public BitsPerPixel BitsPerPixel { get { return BitsPerPixel.Bpp24; } }
+        public BitsPerPixel BitsPerPixel => BitsPerPixel.Bpp24;
 
         /// <summary>
         /// Maximum size of the encoded frame.
         /// </summary>
-        public int MaxEncodedSize { get { return maxEncodedSize; } }
+        public int MaxEncodedSize => maxEncodedSize;
 
         /// <summary>Encodes a frame.</summary>
         /// <seealso cref="IVideoEncoder.EncodeFrame"/>

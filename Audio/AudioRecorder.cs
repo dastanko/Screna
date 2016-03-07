@@ -29,11 +29,11 @@ namespace Screna.Audio
             };
         }
 
-        public void Start(int Delay = 0) { AudioProvider.Start(); }
+        public void Start(int Delay = 0) => AudioProvider.Start();
 
         public void Stop()
         {
-            if (AudioProvider != null) AudioProvider.Dispose();
+            AudioProvider?.Dispose();
 
             if (Writer != null)
             {
@@ -42,7 +42,7 @@ namespace Screna.Audio
             }
         }
 
-        public void Pause() { AudioProvider.Stop(); }
+        public void Pause() => AudioProvider.Stop();
 
         public event Action<Exception> RecordingStopped;
     }

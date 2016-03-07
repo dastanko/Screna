@@ -47,24 +47,18 @@ namespace Screna.Avi
         
         #region IVideoEncoder Members
         /// <summary>Video codec.</summary>
-        public FourCC Codec { get { return AviCodec.MotionJpeg.FourCC; } }
+        public FourCC Codec => AviCodec.MotionJpeg.FourCC;
 
         /// <summary>
         /// Number of bits per pixel in encoded image.
         /// </summary>
-        public BitsPerPixel BitsPerPixel { get { return Screna.Avi.BitsPerPixel.Bpp24; } }
+        public BitsPerPixel BitsPerPixel => Screna.Avi.BitsPerPixel.Bpp24;
 
         /// <summary>
         /// Maximum size of encoded frmae.
         /// </summary>
-        public int MaxEncodedSize
-        {
-            get
-            {
-                // Assume that JPEG is always less than raw bitmap when dimensions are not tiny
-                return Math.Max(rect.Width * rect.Height * 4, 1024);
-            }
-        }
+        public int MaxEncodedSize => Math.Max(rect.Width * rect.Height * 4, 1024);
+        // Assume that JPEG is always less than raw bitmap when dimensions are not tiny
 
         /// <summary>
         /// Encodes a frame.

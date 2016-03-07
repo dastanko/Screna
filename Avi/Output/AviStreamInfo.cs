@@ -24,13 +24,13 @@ namespace Screna.Avi
 
         public long TotalDataSize { get; private set; }
 
-        public IList<SuperIndexEntry> SuperIndex { get { return superIndex; } }
+        public IList<SuperIndexEntry> SuperIndex => superIndex;
 
-        public IList<StandardIndexEntry> StandardIndex { get { return standardIndex; } }
+        public IList<StandardIndexEntry> StandardIndex => standardIndex;
 
-        public IList<Index1Entry> Index1 { get { return index1; } }
+        public IList<Index1Entry> Index1 => index1;
 
-        public FourCC StandardIndexChunkId { get { return standardIndexChunkId; } }
+        public FourCC StandardIndexChunkId => standardIndexChunkId;
 
         public void OnFrameWritten(int chunkDataSize)
         {

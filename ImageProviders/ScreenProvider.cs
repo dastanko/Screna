@@ -27,11 +27,11 @@ namespace Screna
             return BMP;
         }
 
-        public int Height { get { return Screen.Bounds.Height; } }
+        public int Height => Screen.Bounds.Height;
 
-        public int Width { get { return Screen.Bounds.Height; } }
+        public int Width => Screen.Bounds.Height;
         
-        Rectangle Rectangle { get { return Screen.Bounds; } }
+        Rectangle Rectangle => Screen.Bounds;
 
         public void Dispose()
         {

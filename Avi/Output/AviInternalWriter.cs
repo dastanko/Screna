@@ -108,7 +108,7 @@ namespace Screna.Avi
         bool emitIndex1;
 
         /// <summary>AVI streams that have been added so far.</summary>
-        ReadOnlyCollection<IAviStreamInternal> Streams { get { return streams.AsReadOnly(); } }
+        ReadOnlyCollection<IAviStreamInternal> Streams => streams.AsReadOnly();
 
         /// <summary>Adds new video stream.</summary>
         /// <param name="width">Frame's width.</param>
@@ -269,7 +269,7 @@ namespace Screna.Avi
             catch (ObjectDisposedException) { }
         }
 
-        void IDisposable.Dispose() { Close(); }
+        void IDisposable.Dispose() => Close();
 
         void CheckNotStartedWriting()
         {

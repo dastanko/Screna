@@ -26,17 +26,17 @@
 
         #region IVideoEncoder Members
         /// <summary>Video codec.</summary>
-        public FourCC Codec { get { return AviCodec.Uncompressed.FourCC; } }
+        public FourCC Codec => AviCodec.Uncompressed.FourCC;
 
         /// <summary>
         /// Number of bits per pixel in encoded image.
         /// </summary>
-        public BitsPerPixel BitsPerPixel { get { return BitsPerPixel.Bpp24; } }
+        public BitsPerPixel BitsPerPixel => BitsPerPixel.Bpp24;
 
         /// <summary>
         /// Maximum size of encoded frame.
         /// </summary>
-        public int MaxEncodedSize { get { return width * height * 3; } }
+        public int MaxEncodedSize => width * height * 3;
 
         /// <summary>
         /// Encodes a frame.

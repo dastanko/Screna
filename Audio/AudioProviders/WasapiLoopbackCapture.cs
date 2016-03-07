@@ -71,6 +71,6 @@ namespace Screna.Audio
         /// <summary>
         /// Specify loopback
         /// </summary>
-        protected override int AudioClientStreamFlags { get { return 0x00020000; } }
+        protected override int AudioClientStreamFlags => 0x00020000;
     }
 }

@@ -29,7 +29,7 @@ namespace Screna.Native
             _pBase = (byte*)_bitmapData.Scan0.ToPointer();
         }
 
-        public PixelData* this[int x, int y] { get { return (PixelData*)(_pBase + y * _width + x * sizeof(PixelData)); } }
+        public PixelData* this[int x, int y] => (PixelData*)(_pBase + y * _width + x * sizeof(PixelData));
 
         public void Dispose()
         {

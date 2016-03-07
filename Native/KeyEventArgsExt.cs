@@ -26,17 +26,17 @@ namespace Screna.Native
         /// <summary>
         ///     The system tick count of when the event occurred.
         /// </summary>
-        public int Timestamp { get; private set; }
+        public int Timestamp { get; }
 
         /// <summary>
         ///     True if event signals key down..
         /// </summary>
-        public bool IsKeyDown { get; private set; }
+        public bool IsKeyDown { get; }
 
         /// <summary>
         ///     True if event signals key up.
         /// </summary>
-        public bool IsKeyUp { get; private set; }
+        public bool IsKeyUp { get; }
 
         internal static KeyEventArgsExt FromRawDataGlobal(CallbackData data)
         {
@@ -59,7 +59,7 @@ namespace Screna.Native
         // See more at http://www.tech-archive.net/Archive/DotNet/microsoft.public.dotnet.framework.windowsforms/2008-04/msg00127.html #
 
         // A shortcut to make life easier
-        static bool CheckModifier(int vKey) { return (User32.GetKeyState(vKey) & 0x8000) > 0; }
+        static bool CheckModifier(int vKey) => (User32.GetKeyState(vKey) & 0x8000) > 0;
 
         static Keys AppendModifierStates(Keys keyData)
         {

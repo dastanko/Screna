@@ -61,7 +61,7 @@ namespace Screna.Native
             return !e.Handled;
         }
 
-        MouseEventExtArgs GetEventArgs(CallbackData data) { return MouseEventExtArgs.FromRawDataGlobal(data); }
+        MouseEventExtArgs GetEventArgs(CallbackData data) => MouseEventExtArgs.FromRawDataGlobal(data);
 
         void ProcessWheel(ref MouseEventExtArgs e)
         {
@@ -113,7 +113,7 @@ namespace Screna.Native
             OnMoveExt(e);
         }
 
-        bool HasMoved(Point actualPoint) { return m_PreviousPosition != actualPoint; }
+        bool HasMoved(Point actualPoint) => m_PreviousPosition != actualPoint;
 
         public event MouseEventHandler MouseMove;
         public event EventHandler<MouseEventExtArgs> MouseMoveExt;
@@ -126,64 +126,24 @@ namespace Screna.Native
         public event EventHandler<MouseEventExtArgs> MouseWheelExt;
         public event MouseEventHandler MouseDoubleClick;
 
-        void OnMove(MouseEventArgs e)
-        {
-            var handler = MouseMove;
-            if (handler != null) handler(this, e);
-        }
+        void OnMove(MouseEventArgs e) => MouseMove?.Invoke(this, e);
+        
+        void OnMoveExt(MouseEventExtArgs e) => MouseMoveExt?.Invoke(this, e);
+        
+        void OnClick(MouseEventArgs e) => MouseClick?.Invoke(this, e);
+        
+        void OnDown(MouseEventArgs e) => MouseDown?.Invoke(this, e);
 
-        void OnMoveExt(MouseEventExtArgs e)
-        {
-            var handler = MouseMoveExt;
-            if (handler != null) handler(this, e);
-        }
+        void OnDownExt(MouseEventExtArgs e) => MouseDownExt?.Invoke(this, e);
 
-        void OnClick(MouseEventArgs e)
-        {
-            var handler = MouseClick;
-            if (handler != null) handler(this, e);
-        }
+        void OnUp(MouseEventArgs e) => MouseUp?.Invoke(this, e);
 
-        void OnDown(MouseEventArgs e)
-        {
-            var handler = MouseDown;
-            if (handler != null) handler(this, e);
-        }
+        void OnUpExt(MouseEventExtArgs e) => MouseUpExt?.Invoke(this, e);
 
-        void OnDownExt(MouseEventExtArgs e)
-        {
-            var handler = MouseDownExt;
-            if (handler != null) handler(this, e);
-        }
+        void OnWheel(MouseEventArgs e) => MouseWheel?.Invoke(this, e);
 
-        void OnUp(MouseEventArgs e)
-        {
-            var handler = MouseUp;
-            if (handler != null) handler(this, e);
-        }
+        void OnWheelExt(MouseEventExtArgs e) => MouseWheelExt?.Invoke(this, e);
 
-        void OnUpExt(MouseEventExtArgs e)
-        {
-            var handler = MouseUpExt;
-            if (handler != null) handler(this, e);
-        }
-
-        void OnWheel(MouseEventArgs e)
-        {
-            var handler = MouseWheel;
-            if (handler != null) handler(this, e);
-        }
-
-        void OnWheelExt(MouseEventExtArgs e)
-        {
-            var handler = MouseWheelExt;
-            if (handler != null) handler(this, e);
-        }
-
-        void OnDoubleClick(MouseEventArgs e)
-        {
-            var handler = MouseDoubleClick;
-            if (handler != null) handler(this, e);
-        }
+        void OnDoubleClick(MouseEventArgs e) => MouseDoubleClick?.Invoke(this, e);
     }
 }

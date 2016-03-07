@@ -76,7 +76,7 @@ namespace Screna.Audio
             }
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public string ID
         {
@@ -107,6 +107,6 @@ namespace Screna.Audio
             Name = new PropertyStore(propstore)[PKEY_Device_FriendlyName];
         }
 
-        public override string ToString() { return Name; }
+        public override string ToString() => Name;
     }
 }
