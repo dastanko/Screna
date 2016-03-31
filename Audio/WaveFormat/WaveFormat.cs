@@ -44,17 +44,17 @@ namespace Screna.Audio
         public WaveFormat(int rate, int bits, int channels)
         {
             if (channels < 1)
-                throw new ArgumentOutOfRangeException("channels", "Channels must be 1 or greater");
+                throw new ArgumentOutOfRangeException(nameof(channels), "Channels must be 1 or greater");
 
             // minimum 16 bytes, sometimes 18 for PCM
-            this.waveFormatTag = WaveFormatEncoding.Pcm;
+            waveFormatTag = WaveFormatEncoding.Pcm;
             this.channels = (short)channels;
-            this.sampleRate = rate;
-            this.bitsPerSample = (short)bits;
-            this.extraSize = 0;
+            sampleRate = rate;
+            bitsPerSample = (short)bits;
+            extraSize = 0;
 
-            this.blockAlign = (short)(channels * (bits / 8));
-            this.averageBytesPerSecond = this.sampleRate * this.blockAlign;
+            blockAlign = (short)(channels * (bits / 8));
+            averageBytesPerSecond = sampleRate * blockAlign;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Screna.Audio
         /// <param name="channels">number of channels</param>
         public static WaveFormat CreateIeeeFloatWaveFormat(int sampleRate, int channels)
         {
-            return new WaveFormat()
+            return new WaveFormat
             {
                 waveFormatTag = WaveFormatEncoding.Float,
                 channels = (short)channels,
@@ -83,7 +83,7 @@ namespace Screna.Audio
         /// <returns></returns>
         public static WaveFormat MarshalFromPtr(IntPtr pointer)
         {
-            WaveFormat waveFormat = (WaveFormat)Marshal.PtrToStructure(pointer, typeof(WaveFormat));
+            var waveFormat = (WaveFormat)Marshal.PtrToStructure(pointer, typeof(WaveFormat));
             switch (waveFormat.Encoding)
             {
                 case WaveFormatEncoding.Pcm:
@@ -114,8 +114,8 @@ namespace Screna.Audio
         {
             writer.Write((short)Encoding);
             writer.Write((short)Channels);
-            writer.Write((int)SampleRate);
-            writer.Write((int)AverageBytesPerSecond);
+            writer.Write(SampleRate);
+            writer.Write(AverageBytesPerSecond);
             writer.Write((short)BlockAlign);
             writer.Write((short)BitsPerSample);
             writer.Write((short)ExtraSize);

@@ -66,7 +66,7 @@ namespace Screna.Avi
                                                             bool forceSingleThreadedAccess = false)
         {
             var encoderFactory = codec != null
-                ? new Func<IVideoEncoder>(() => new Mpeg4VideoEncoderVcm(width, height, fps, frameCount, quality, codec.FourCC))
+                ? (() => new Mpeg4VideoEncoderVcm(width, height, fps, frameCount, quality, codec.FourCC))
                 : new Func<IVideoEncoder>(() => new Mpeg4VideoEncoderVcm(width, height, fps, frameCount, quality));
             var encoder = forceSingleThreadedAccess
                 ? new SingleThreadedVideoEncoderWrapper(encoderFactory)
@@ -85,7 +85,7 @@ namespace Screna.Avi
                                                         int outputBitRateKbps = 160)
         {
             var encoder = new Mp3EncoderLame(channelCount, sampleRate, outputBitRateKbps);
-            return writer.AddEncodingAudioStream(encoder, true);
+            return writer.AddEncodingAudioStream(encoder);
         }
     }
 }

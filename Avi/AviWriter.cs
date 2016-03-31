@@ -35,7 +35,7 @@ namespace Screna.Avi
             Writer = new AviInternalWriter(FileName)
             {
                 FramesPerSecond = FrameRate,
-                EmitIndex1 = true,
+                EmitIndex1 = true
             };
 
             CreateVideoStream(ImageProvider.Width, ImageProvider.Height, Quality, Codec);

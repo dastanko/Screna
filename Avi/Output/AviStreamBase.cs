@@ -5,16 +5,15 @@ namespace Screna.Avi
     abstract class AviStreamBase : IAviStream, IAviStreamInternal
     {
         bool isFrozen;
-        readonly int index;
         string name;
         FourCC chunkId;
 
         protected AviStreamBase(int index)
         {
-            this.index = index;
+            this.Index = index;
         }
 
-        public int Index => index;
+        public int Index { get; }
 
         public string Name
         {

@@ -43,7 +43,7 @@ namespace Screna.Native
 
             if ((WindowsMessage)wParam != WindowsMessage.WM_KEYDOWN) yield break;
 
-            KeyboardHookStruct keyboardHookStruct =
+            var keyboardHookStruct =
                 (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
 
             var virtualKeyCode = keyboardHookStruct.VirtualKeyCode;

@@ -1,7 +1,6 @@
 // Adapted from SharpAvi Screencast Sample by Vasilli Masillov
 using Screna.Audio;
 using System;
-using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,7 +33,7 @@ namespace Screna
 
             if (handler != null)
             {
-                if (syncContext != null) syncContext.Post((s) => handler(e), null);
+                if (syncContext != null) syncContext.Post(s => handler(e), null);
                 else handler(e);
             }
         }
@@ -43,7 +42,7 @@ namespace Screna
         {
             // Init Fields
             this.ImageProvider = ImageProvider;
-            this.VideoEncoder = Encoder;
+            VideoEncoder = Encoder;
             this.AudioProvider = AudioProvider;
 
             syncContext = SynchronizationContext.Current;
@@ -144,11 +143,11 @@ namespace Screna
             }
 
             // Writers
-            if (VideoEncoder != null)
-            {
-                VideoEncoder.Dispose();
-                VideoEncoder = null;
-            }
+            if (VideoEncoder == null)
+                return;
+
+            VideoEncoder.Dispose();
+            VideoEncoder = null;
         }
 
         void Record()
@@ -159,14 +158,12 @@ namespace Screna
                 Task FrameWriteTask = null;
                 var TimeTillNextFrame = TimeSpan.Zero;
 
-                Bitmap Frame = null;
-
                 while (!StopCapturing.WaitOne(TimeTillNextFrame)
                     && ContinueCapturing.WaitOne())
                 {
                     var Timestamp = DateTime.Now;
 
-                    Frame = ImageProvider.Capture();
+                    var Frame = ImageProvider.Capture();
 
                     // Wait for the previous frame is written
                     if (FrameWriteTask != null)
@@ -189,7 +186,7 @@ namespace Screna
                 }
 
                 // Wait for the last frame is written
-                if (FrameWriteTask != null) FrameWriteTask.Wait();
+                FrameWriteTask?.Wait();
             }
             catch (Exception E)
             {
@@ -203,12 +200,12 @@ namespace Screna
         {
             if (AudioProvider.IsSynchronizable)
             {
-                if (WaitHandle.WaitAny(new WaitHandle[] { VideoFrameWritten, StopCapturing }) == 0)
-                {
-                    VideoEncoder.WriteAudio(Buffer, BytesRecorded);
+                if (WaitHandle.WaitAny(new WaitHandle[] {VideoFrameWritten, StopCapturing}) != 0)
+                    return;
 
-                    AudioBlockWritten.Set();
-                }
+                VideoEncoder.WriteAudio(Buffer, BytesRecorded);
+
+                AudioBlockWritten.Set();
             }
             else VideoEncoder.WriteAudio(Buffer, BytesRecorded);
         }

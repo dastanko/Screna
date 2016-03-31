@@ -12,6 +12,6 @@ namespace Screna.Audio
         /// <summary>
         /// Set by Windows to indicate that the buffer is queued for playback.
         /// </summary>
-        InQueue = 0x00000010,
+        InQueue = 0x00000010
     }
 }

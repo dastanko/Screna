@@ -1,5 +1,4 @@
 using System;
-using Screna.Native;
 
 namespace Screna.Native
 {
@@ -7,7 +6,7 @@ namespace Screna.Native
     {
         protected BaseListener(Func<Callback, HookResult> subscribe) { Handle = subscribe(Callback); }
 
-        protected HookResult Handle { get; set; }
+        protected HookResult Handle { get; }
 
         public void Dispose() => Handle.Dispose();
 

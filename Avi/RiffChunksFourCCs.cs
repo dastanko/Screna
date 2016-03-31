@@ -39,10 +39,10 @@
 
         /// <summary>Gets the identifier of an audio data chunk.</summary>
         /// <param name="streamIndex">Sequential number of the stream.</param>
-        public static FourCC AudioData(int streamIndex) => string.Format("{0:00}wb", streamIndex);
+        public static FourCC AudioData(int streamIndex) => $"{streamIndex:00}wb";
 
         /// <summary>Gets the identifier of an index chunk.</summary>
         /// <param name="streamIndex">Sequential number of the stream.</param>
-        public static FourCC IndexData(int streamIndex) => string.Format("ix{0:00}", streamIndex);
+        public static FourCC IndexData(int streamIndex) => $"ix{streamIndex:00}";
     }
 }

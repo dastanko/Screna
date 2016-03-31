@@ -34,27 +34,27 @@ namespace Screna
         {
             if (Include)
             {
-                CursorInfo = new CursorInfo() { cbSize = Marshal.SizeOf(typeof(CursorInfo)) };
+                CursorInfo = new CursorInfo { cbSize = Marshal.SizeOf(typeof(CursorInfo)) };
 
-                if (User32.GetCursorInfo(out CursorInfo))
-                {
-                    if (CursorInfo.flags == CURSOR_SHOWING)
-                    {
-                        hIcon = User32.CopyIcon(CursorInfo.hCursor);
+                if (!User32.GetCursorInfo(out CursorInfo))
+                    return;
 
-                        if (User32.GetIconInfo(hIcon, out icInfo))
-                        {
-                            var Location = new Point(CursorInfo.ptScreenPos.X - Offset.X - icInfo.xHotspot,
-                                                    CursorInfo.ptScreenPos.Y - Offset.Y - icInfo.yHotspot);
+                if (CursorInfo.flags != CURSOR_SHOWING)
+                    return;
 
-                            if (hIcon != IntPtr.Zero)
-                                using (var CursorBMP = Icon.FromHandle(hIcon).ToBitmap())
-                                    g.DrawImage(CursorBMP, new Rectangle(Location, CursorBMP.Size));
+                hIcon = User32.CopyIcon(CursorInfo.hCursor);
 
-                            User32.DestroyIcon(hIcon);
-                        }
-                    }
-                }
+                if (!User32.GetIconInfo(hIcon, out icInfo))
+                    return;
+
+                var Location = new Point(CursorInfo.ptScreenPos.X - Offset.X - icInfo.xHotspot,
+                    CursorInfo.ptScreenPos.Y - Offset.Y - icInfo.yHotspot);
+
+                if (hIcon != IntPtr.Zero)
+                    using (var CursorBMP = Icon.FromHandle(hIcon).ToBitmap())
+                        g.DrawImage(CursorBMP, new Rectangle(Location, CursorBMP.Size));
+
+                User32.DestroyIcon(hIcon);
             }
         }
 

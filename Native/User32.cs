@@ -105,10 +105,10 @@ namespace Screna.Native
 
         public static void TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, IntPtr dwhkl, out char[] chars)
         {
-            StringBuilder pwszBuff = new StringBuilder(64);
-            KeyboardState keyboardState = KeyboardState.GetCurrent();
-            byte[] currentKeyboardState = keyboardState.GetNativeState();
-            bool isDead = false;
+            var pwszBuff = new StringBuilder(64);
+            var keyboardState = KeyboardState.GetCurrent();
+            var currentKeyboardState = keyboardState.GetNativeState();
+            var isDead = false;
 
             if (keyboardState.IsDown(Keys.ShiftKey))
                 currentKeyboardState[(byte)Keys.ShiftKey] = 0x80;
@@ -131,14 +131,12 @@ namespace Screna.Native
                     break;
 
                 case 1:
-                    if (pwszBuff.Length > 0) chars = new[] { pwszBuff[0] };
-                    else chars = null;
+                    chars = pwszBuff.Length > 0 ? new[] { pwszBuff[0] } : null;
                     break;
 
                 // Two or more (only two of them is relevant)
                 default:
-                    if (pwszBuff.Length > 1) chars = new[] { pwszBuff[0], pwszBuff[1] };
-                    else chars = new[] { pwszBuff[0] };
+                    chars = pwszBuff.Length > 1 ? new[] { pwszBuff[0], pwszBuff[1] } : new[] { pwszBuff[0] };
                     break;
             }
 
@@ -146,7 +144,7 @@ namespace Screna.Native
             {
                 if (chars != null)
                 {
-                    StringBuilder sbTemp = new StringBuilder(5);
+                    var sbTemp = new StringBuilder(5);
                     ToUnicodeEx(lastVirtualKeyCode, lastScanCode, lastKeyState, sbTemp, sbTemp.Capacity, 0, dwhkl);
                     lastIsDead = false;
                     lastVirtualKeyCode = 0;
@@ -169,7 +167,7 @@ namespace Screna.Native
 
             do
             {
-                byte[] lpKeyStateNull = new Byte[255];
+                var lpKeyStateNull = new byte[255];
                 rc = ToUnicodeEx(vk, sc, lpKeyStateNull, sb, sb.Capacity, 0, hkl);
             }
             while (rc < 0);
@@ -177,9 +175,9 @@ namespace Screna.Native
 
         static IntPtr GetActiveKeyboard()
         {
-            IntPtr hActiveWnd = User32.GetForegroundWindow(); //handle to focused window
+            var hActiveWnd = GetForegroundWindow(); //handle to focused window
             int dwProcessId;
-            int hCurrentWnd = User32.GetWindowThreadProcessId(hActiveWnd, out dwProcessId);
+            var hCurrentWnd = GetWindowThreadProcessId(hActiveWnd, out dwProcessId);
             //thread of focused window
             return GetKeyboardLayout(hCurrentWnd); //get the layout identifier for the thread whose window is focused
         }

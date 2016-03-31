@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Screna.Audio
@@ -10,7 +9,7 @@ namespace Screna.Audio
     class WaveInBuffer : IDisposable
     {
         readonly WaveHeader header;
-        readonly byte[] buffer;
+
         GCHandle hBuffer,
             hHeader, // we need to pin the header structure
             hThis; // for the user callback
@@ -23,13 +22,13 @@ namespace Screna.Audio
         /// <param name="bufferSize">Buffer size in bytes</param>
         public WaveInBuffer(IntPtr waveInHandle, int bufferSize)
         {
-            this.buffer = new byte[bufferSize];
-            this.hBuffer = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            Data = new byte[bufferSize];
+            hBuffer = GCHandle.Alloc(Data, GCHandleType.Pinned);
             this.waveInHandle = waveInHandle;
 
             hThis = GCHandle.Alloc(this);
 
-            header = new WaveHeader()
+            header = new WaveHeader
             {
                 dataBuffer = hBuffer.AddrOfPinnedObject(),
                 bufferLength = bufferSize,
@@ -73,7 +72,7 @@ namespace Screna.Audio
         /// <summary>
         /// Provides access to the actual record buffer (for reading only)
         /// </summary>
-        public byte[] Data => buffer;
+        public byte[] Data { get; }
 
         /// <summary>
         /// Indicates whether the Done flag is set on this buffer

@@ -31,18 +31,15 @@ namespace Screna.Avi
         /// <summary>
         /// Default preferred order of the supported codecs.
         /// </summary>
-        public static ReadOnlyCollection<FourCC> DefaultCodecPreference => defaultCodecPreference;
-
-        static readonly ReadOnlyCollection<FourCC> defaultCodecPreference =
-            new ReadOnlyCollection<FourCC>(
-                new[]
-                {
-                    AviCodec.MicrosoftMpeg4V3.FourCC,
-                    AviCodec.MicrosoftMpeg4V2.FourCC,
-                    AviCodec.Xvid.FourCC,
-                    AviCodec.X264.FourCC,
-                    AviCodec.DivX.FourCC,
-                });
+        public static ReadOnlyCollection<FourCC> DefaultCodecPreference { get; } = new ReadOnlyCollection<FourCC>(
+            new[]
+            {
+                AviCodec.MicrosoftMpeg4V3.FourCC,
+                AviCodec.MicrosoftMpeg4V2.FourCC,
+                AviCodec.Xvid.FourCC,
+                AviCodec.X264.FourCC,
+                AviCodec.DivX.FourCC
+            });
 
         /// <summary>
         /// Gets info about the supported codecs that are installed on the system.
@@ -50,7 +47,7 @@ namespace Screna.Avi
         public static IEnumerable<AviCodec> GetAvailableCodecs()
         {
             var inBitmapInfo = CreateBitmapInfo(8, 8, 32, AviCodec.Uncompressed.FourCC);
-            inBitmapInfo.ImageSize = (uint)4;
+            inBitmapInfo.ImageSize = 4;
 
             foreach (var codec in DefaultCodecPreference)
             {
@@ -70,7 +67,7 @@ namespace Screna.Avi
             // Using ICLocate is time-consuming. Besides, it does not clean up something, so the process does not terminate on exit.
             // Instead open a specific codec and query it for needed features.
 
-            FourCC CodecType_Video = new FourCC("VIDC");
+            var CodecType_Video = new FourCC("VIDC");
 
             var compressorHandle = VfwApi.ICOpen((uint)CodecType_Video, outBitmapInfo.Compression, VfwApi.ICMODE_COMPRESS);
 
@@ -101,9 +98,9 @@ namespace Screna.Avi
                 SizeOfStruct = (uint)Marshal.SizeOf(typeof(VfwApi.BitmapInfoHeader)),
                 Width = width,
                 Height = height,
-                BitCount = (ushort)bitCount,
+                BitCount = bitCount,
                 Planes = 1,
-                Compression = (uint)codec,
+                Compression = (uint)codec
             };
         }
 
@@ -113,7 +110,7 @@ namespace Screna.Avi
         readonly VfwApi.BitmapInfoHeader inBitmapInfo, outBitmapInfo;
         readonly IntPtr compressorHandle;
         readonly VfwApi.CompressorInfo compressorInfo;
-        readonly int maxEncodedSize, quality, keyFrameRate;
+        readonly int quality, keyFrameRate;
 
 
         int frameIndex = 0, framesFromLastKey;
@@ -175,7 +172,7 @@ namespace Screna.Avi
 
             try
             {
-                maxEncodedSize = GetMaxEncodedSize();
+                MaxEncodedSize = GetMaxEncodedSize();
 
                 // quality for ICM ranges from 0 to 10000
                 this.quality = compressorInfo.SupportsQuality ? quality * 100 : 0;
@@ -214,7 +211,7 @@ namespace Screna.Avi
                 StartFrame = 0,
                 FrameCount = frameCount,
                 Quality = quality,
-                KeyRate = keyFrameRate,
+                KeyRate = keyFrameRate
             };
             Extensions.SplitFrameRate((decimal)fps, out info.FrameRateNumerator, out info.FrameRateDenominator);
 
@@ -251,7 +248,7 @@ namespace Screna.Avi
         /// <summary>
         /// Maximum size of the encoded frame.
         /// </summary>
-        public int MaxEncodedSize => maxEncodedSize;
+        public int MaxEncodedSize { get; }
 
         /// <summary>Encodes a frame.</summary>
         /// <seealso cref="IVideoEncoder.EncodeFrame"/>
@@ -312,7 +309,7 @@ namespace Screna.Avi
         void CheckICResult(int result)
         {
             if (result != VfwApi.ICERR_OK)
-                throw new InvalidOperationException(string.Format("Encoder operation returned an error: {0}.", result));
+                throw new InvalidOperationException($"Encoder operation returned an error: {result}.");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Screna.Avi
 
         public static RiffItem OpenList(this BinaryWriter writer, FourCC fourcc)
         {
-            FourCC ListType_List = new FourCC("LIST");
+            var ListType_List = new FourCC("LIST");
 
             return writer.OpenList(fourcc, ListType_List);
         }

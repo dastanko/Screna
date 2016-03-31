@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Screna.Avi
+﻿namespace Screna.Avi
 {
     /// <summary>
     /// Encoder for video AVI stream.

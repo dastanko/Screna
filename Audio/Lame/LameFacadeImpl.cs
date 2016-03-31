@@ -118,11 +118,11 @@ namespace Screna.Audio
 
         public int FinishEncoding(byte[] Destination, int DestinationOffset)
         {
-            GCHandle DestinationHandle = GCHandle.Alloc(Destination, GCHandleType.Pinned);
+            var DestinationHandle = GCHandle.Alloc(Destination, GCHandleType.Pinned);
 
             try
             {
-                IntPtr DestinationPtr = new IntPtr(DestinationHandle.AddrOfPinnedObject().ToInt64() + DestinationOffset);
+                var DestinationPtr = new IntPtr(DestinationHandle.AddrOfPinnedObject().ToInt64() + DestinationOffset);
 
                 int DestinationLength = Destination.Length - DestinationOffset,
                     Result = lame_encode_flush(Context, DestinationPtr, DestinationLength);

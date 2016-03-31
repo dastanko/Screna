@@ -1,13 +1,14 @@
 ﻿using Screna.Native;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Screna
 {
     public class WindowHandler
     {
-        public WindowHandler(IntPtr hWnd) { this.Handle = hWnd; }
+        public WindowHandler(IntPtr hWnd) { Handle = hWnd; }
 
         public bool IsVisible => User32.IsWindowVisible(Handle);
 
@@ -17,7 +18,7 @@ namespace Screna
         {
             get
             {
-                StringBuilder title = new StringBuilder(User32.GetWindowTextLength(Handle) + 1);
+                var title = new StringBuilder(User32.GetWindowTextLength(Handle) + 1);
                 User32.GetWindowText(Handle, title, title.Capacity);
                 return title.ToString();
             }
@@ -25,7 +26,7 @@ namespace Screna
 
         public static IEnumerable<WindowHandler> Enumerate()
         {
-            List<WindowHandler> list = new List<WindowHandler>();
+            var list = new List<WindowHandler>();
 
             User32.EnumWindows((hWnd, lParam) =>
                 {
@@ -39,16 +40,16 @@ namespace Screna
 
         public static IEnumerable<WindowHandler> EnumerateVisible()
         {
-            foreach (var win in Enumerate())
+            foreach (var hWnd in from win in Enumerate() let hWnd = win.Handle where win.IsVisible select hWnd)
             {
-                var hWnd = win.Handle;
-                if (!win.IsVisible) continue;
                 if (!(User32.GetWindowLong(hWnd, GetWindowLongValue.GWL_EXSTYLE).HasFlag(WindowStyles.WS_EX_APPWINDOW)))
                 {
                     if (User32.GetWindow(hWnd, GetWindowEnum.Owner) != IntPtr.Zero)
                         continue;
+
                     if (User32.GetWindowLong(hWnd, GetWindowLongValue.GWL_EXSTYLE).HasFlag(WindowStyles.WS_EX_TOOLWINDOW))
                         continue;
+
                     if (User32.GetWindowLong(hWnd, GetWindowLongValue.GWL_STYLE).HasFlag(WindowStyles.WS_CHILD))
                         continue;
                 }

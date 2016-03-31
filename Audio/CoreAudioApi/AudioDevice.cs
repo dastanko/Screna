@@ -20,14 +20,14 @@ namespace Screna.Audio
         internal static IEnumerable<WasapiAudioDevice> EnumerateAudioEndPoints(DataFlow dataFlow)
         {
             IMMDeviceCollection collection;
-            int DeviceState_Active = 0x00000001;
+            const int DeviceState_Active = 0x00000001;
             Marshal.ThrowExceptionForHR(realEnumerator.EnumAudioEndpoints(dataFlow, DeviceState_Active, out collection));
 
             int Count;
             Marshal.ThrowExceptionForHR(collection.GetCount(out Count));
 
             IMMDevice dev;
-            for (int index = 0; index < Count; index++)
+            for (var index = 0; index < Count; index++)
             {
                 collection.Item(index, out dev);
                 yield return new WasapiAudioDevice(dev);
@@ -42,8 +42,8 @@ namespace Screna.Audio
         /// <returns>Device</returns>
         internal static WasapiAudioDevice GetDefaultAudioEndpoint(DataFlow dataFlow, Role role)
         {
-            IMMDevice device = null;
-            Marshal.ThrowExceptionForHR(((IMMDeviceEnumerator)realEnumerator).GetDefaultAudioEndpoint(dataFlow, role, out device));
+            IMMDevice device;
+            Marshal.ThrowExceptionForHR(realEnumerator.GetDefaultAudioEndpoint(dataFlow, role, out device));
             return new WasapiAudioDevice(device);
         }
 
@@ -54,8 +54,8 @@ namespace Screna.Audio
         /// <returns>Device</returns>
         public static WasapiAudioDevice Get(string id)
         {
-            IMMDevice device = null;
-            Marshal.ThrowExceptionForHR(((IMMDeviceEnumerator)realEnumerator).GetDevice(id, out device));
+            IMMDevice device;
+            Marshal.ThrowExceptionForHR(realEnumerator.GetDevice(id, out device));
             return new WasapiAudioDevice(device);
         }
         #endregion
@@ -70,7 +70,7 @@ namespace Screna.Audio
             get
             {
                 object result;
-                int ClsCtx_All = 0x1 | 0x2 | 0x4 | 0x10;
+                var ClsCtx_All = 0x1 | 0x2 | 0x4 | 0x10;
                 Marshal.ThrowExceptionForHR(deviceInterface.Activate(ref IID_IAudioClient, ClsCtx_All, IntPtr.Zero, out result));
                 return new AudioClient(result as IAudioClient);
             }
@@ -89,7 +89,7 @@ namespace Screna.Audio
         }
         #endregion
 
-        static readonly PropertyKey PKEY_Device_FriendlyName = new PropertyKey()
+        static readonly PropertyKey PKEY_Device_FriendlyName = new PropertyKey
         {
             formatId = new Guid("a45c254e-df1c-4efd-8020-67d146a850e0"),
             propertyId = 14
@@ -100,7 +100,7 @@ namespace Screna.Audio
             deviceInterface = realDevice;
 
             IPropertyStore propstore;
-            int StorageAccessMode_Read = 0;
+            var StorageAccessMode_Read = 0;
 
             Marshal.ThrowExceptionForHR(deviceInterface.OpenPropertyStore(StorageAccessMode_Read, out propstore));
 

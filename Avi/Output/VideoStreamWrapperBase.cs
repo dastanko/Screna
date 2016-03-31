@@ -12,72 +12,71 @@ namespace Screna.Avi
     {
         protected VideoStreamWrapperBase(IAviVideoStreamInternal baseStream)
         {
-            this.baseStream = baseStream;
+            this.BaseStream = baseStream;
         }
 
-        protected IAviVideoStreamInternal BaseStream => baseStream;
-        readonly IAviVideoStreamInternal baseStream;
+        protected IAviVideoStreamInternal BaseStream { get; }
 
         public virtual void Dispose()
         {
-            var baseStreamDisposable = baseStream as IDisposable;
-            if (baseStreamDisposable != null) baseStreamDisposable.Dispose();
+            var baseStreamDisposable = BaseStream as IDisposable;
+            baseStreamDisposable?.Dispose();
         }
 
         public virtual int Width
         {
-            get { return baseStream.Width; }
-            set { baseStream.Width = value; }
+            get { return BaseStream.Width; }
+            set { BaseStream.Width = value; }
         }
 
         public virtual int Height
         {
-            get { return baseStream.Height; }
-            set { baseStream.Height = value; }
+            get { return BaseStream.Height; }
+            set { BaseStream.Height = value; }
         }
 
         public virtual BitsPerPixel BitsPerPixel
         {
-            get { return baseStream.BitsPerPixel; }
-            set { baseStream.BitsPerPixel = value; }
+            get { return BaseStream.BitsPerPixel; }
+            set { BaseStream.BitsPerPixel = value; }
         }
 
         public virtual FourCC Codec
         {
-            get { return baseStream.Codec; }
-            set { baseStream.Codec = value; }
+            get { return BaseStream.Codec; }
+            set { BaseStream.Codec = value; }
         }
 
         public virtual void WriteFrame(bool isKeyFrame, byte[] frameData, int startIndex, int length)
         {
-            baseStream.WriteFrame(isKeyFrame, frameData, startIndex, length);
+            BaseStream.WriteFrame(isKeyFrame, frameData, startIndex, length);
         }
 
         public virtual System.Threading.Tasks.Task WriteFrameAsync(bool isKeyFrame, byte[] frameData, int startIndex, int length)
         {
-            return baseStream.WriteFrameAsync(isKeyFrame, frameData, startIndex, length);
+            return BaseStream.WriteFrameAsync(isKeyFrame, frameData, startIndex, length);
         }
 
-        public int FramesWritten => baseStream.FramesWritten;
+        public int FramesWritten => BaseStream.FramesWritten;
 
-        public int Index => baseStream.Index;
+        public int Index => BaseStream.Index;
 
         public virtual string Name
         {
-            get { return baseStream.Name; }
-            set { baseStream.Name = value; }
+            get { return BaseStream.Name; }
+            set { BaseStream.Name = value; }
         }
 
-        public FourCC StreamType => baseStream.StreamType;
+        public FourCC StreamType => BaseStream.StreamType;
 
-        public FourCC ChunkId => baseStream.ChunkId;
+        public FourCC ChunkId => BaseStream.ChunkId;
 
-        public virtual void PrepareForWriting() => baseStream.PrepareForWriting();
+        public virtual void PrepareForWriting() => BaseStream.PrepareForWriting();
 
-        public virtual void FinishWriting() => baseStream.FinishWriting();
+        public virtual void FinishWriting() => BaseStream.FinishWriting();
 
-        public void WriteHeader() => baseStream.WriteHeader();
+        public void WriteHeader() => BaseStream.WriteHeader();
 
-        public void WriteFormat() => baseStream.WriteFormat();
+        public void WriteFormat() => BaseStream.WriteFormat();
     }
 }

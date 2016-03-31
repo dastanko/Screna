@@ -16,14 +16,14 @@ namespace Screna.Avi
         /// <summary>24 bits per pixel.</summary>
         Bpp24 = 24,
         /// <summary>32 bits per pixel.</summary>
-        Bpp32 = 32,
+        Bpp32 = 32
     }
 
     enum IndexType : byte
     {
         Indexes = 0x00,
         Chunks = 0x01,
-        Data = 0x80,
+        Data = 0x80
     }
 
     [Flags]
@@ -34,12 +34,12 @@ namespace Screna.Avi
         IsInterleaved = 0x00000100U,
         TrustChunkType = 0x00000800U,
         WasCaptureFile = 0x00010000U,
-        Copyrighted = 0x000200000U,
+        Copyrighted = 0x000200000U
     }
 
     enum StreamHeaderFlags : uint
     {
         Disabled = 0x00000001,
-        VideoPaletteChanges = 0x00010000,
+        VideoPaletteChanges = 0x00010000
     }
 }

@@ -30,7 +30,7 @@ namespace Screna.Audio
 
             long latencyRefTimes = latencyMilliseconds * 10000;
 
-            int EventCallback = 0x00040000;
+            var EventCallback = 0x00040000;
 
             // With EventCallBack and Shared, both latencies must be set to 0 (update - not sure this is true anymore)
             audioClient.Initialize(AudioClientShareMode.Shared, EventCallback, latencyRefTimes, 0, outputFormat, Guid.Empty);
@@ -70,7 +70,7 @@ namespace Screna.Audio
                     if (frameEventWaitHandle.WaitOne(3 * latencyMilliseconds) && playbackState == PlaybackState.Playing)
                     {
                         // See how much buffer space is available.
-                        int numFramesAvailable = bufferFrameCount - audioClient.CurrentPadding;
+                        var numFramesAvailable = bufferFrameCount - audioClient.CurrentPadding;
                         if (numFramesAvailable > 10) FillBuffer(numFramesAvailable);
                     }
                 }
@@ -97,7 +97,7 @@ namespace Screna.Audio
             var buffer = renderClient.GetBuffer(frameCount);
             var readLength = frameCount * bytesPerFrame;
 
-            for (int i = 0; i < readLength; ++i)
+            for (var i = 0; i < readLength; ++i)
                 Marshal.WriteByte(buffer, i, 0);
 
             renderClient.ReleaseBuffer(frameCount);

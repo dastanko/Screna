@@ -44,9 +44,9 @@ namespace Screna
 
         public Bitmap Capture()
         {
-            IntPtr WindowHandle = hWnd();
+            var WindowHandle = hWnd();
 
-            Rectangle Rect = DesktopRectangle;
+            var Rect = DesktopRectangle;
 
             if (WindowHandle != DesktopHandle && WindowHandle != IntPtr.Zero)
             {

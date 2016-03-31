@@ -32,7 +32,7 @@ namespace Screna.Avi
         /// </param>
         public SingleThreadedVideoEncoderWrapper(Func<IVideoEncoder> encoderFactory)
         {
-            this.thread = new Thread(RunDispatcher)
+            thread = new Thread(RunDispatcher)
                 {
                     IsBackground = true,
                     Name = typeof(SingleThreadedVideoEncoderWrapper).Name
@@ -41,10 +41,10 @@ namespace Screna.Avi
             var dispatcherCreated = new AutoResetEvent(false);
             thread.Start(dispatcherCreated);
             dispatcherCreated.WaitOne();
-            this.dispatcher = Dispatcher.FromThread(thread);
+            dispatcher = Dispatcher.FromThread(thread);
 
             // TODO: Create encoder on the first frame
-            this.encoder = (IVideoEncoder)dispatcher.Invoke(encoderFactory);
+            encoder = dispatcher.Invoke(encoderFactory);
             if (encoder == null)
                 throw new InvalidOperationException("Encoder factory has created no instance.");
         }
@@ -58,7 +58,7 @@ namespace Screna.Avi
             {
                 var encoderDisposable = encoder as IDisposable;
                 if (encoderDisposable != null)
-                    dispatcher.Invoke(new Action(encoderDisposable.Dispose));
+                    dispatcher.Invoke(encoderDisposable.Dispose);
 
                 dispatcher.InvokeShutdown();
                 thread.Join();
@@ -107,10 +107,9 @@ namespace Screna.Avi
             public bool IsKeyFrame;
         }
 
-
-        void RunDispatcher(object parameter)
+        static void RunDispatcher(object parameter)
         {
-            AutoResetEvent dispatcherCreated = (AutoResetEvent)parameter;
+            var dispatcherCreated = (AutoResetEvent)parameter;
             var dispatcher = Dispatcher.CurrentDispatcher;
             dispatcherCreated.Set();
 

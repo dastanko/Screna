@@ -25,8 +25,7 @@ namespace Screna.Avi
             if (ownsEncoder)
             {
                 var encoderDisposable = encoder as IDisposable;
-                if (encoderDisposable != null)
-                    encoderDisposable.Dispose();
+                encoderDisposable?.Dispose();
             }
 
             base.Dispose();
@@ -88,13 +87,13 @@ namespace Screna.Avi
             if (encodedBuffer != null && encodedBuffer.Length >= maxLength)
                 return;
 
-            var newLength = encodedBuffer == null ? 1024 : encodedBuffer.Length * 2;
+            var newLength = encodedBuffer?.Length * 2 ?? 1024;
             while (newLength < maxLength)
                 newLength *= 2;
 
             encodedBuffer = new byte[newLength];
         }
 
-        void ThrowPropertyDefinedByEncoder() { throw new NotSupportedException("The value of the property is defined by the encoder."); }
+        static void ThrowPropertyDefinedByEncoder() { throw new NotSupportedException("The value of the property is defined by the encoder."); }
     }
 }

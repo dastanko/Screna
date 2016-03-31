@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Screna.Audio
+﻿namespace Screna.Audio
 {
     enum AudioClientShareMode { Shared, Exclusive }
     

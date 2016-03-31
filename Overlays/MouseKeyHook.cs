@@ -86,7 +86,7 @@ namespace Screna
             if (MouseClicked)
             {
                 var curPos = MouseCursor.CursorPosition;
-                float d = (float)(ClickRadius * 2);
+                var d = (float)(ClickRadius * 2);
 
                 g.DrawArc(ClickStrokePen,
                     curPos.X - 40 - Offset.X,

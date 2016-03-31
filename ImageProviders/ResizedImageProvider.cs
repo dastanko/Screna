@@ -6,24 +6,23 @@ namespace Screna
 {
     public class ResizedImageProvider : IImageProvider
     {
-        int TargetWidth, TargetHeight;
-        float ResizeWidth, ResizeHeight;
-        
-        IImageProvider ImageSource;
-        Color BackgroundColor;
+        readonly float ResizeWidth, ResizeHeight;
+
+        readonly IImageProvider ImageSource;
+        readonly Color BackgroundColor;
 
         public ResizedImageProvider(IImageProvider ImageSource, int TargetWidth, int TargetHeight, Color BackgroundColor)
         {
             this.ImageSource = ImageSource;
             this.BackgroundColor = BackgroundColor;
 
-            this.TargetHeight = TargetHeight;
-            this.TargetWidth = TargetWidth;
+            this.Height = TargetHeight;
+            this.Width = TargetWidth;
 
             int OriginalWidth = ImageSource.Width,
                 OriginalHeight = ImageSource.Height;
 
-            float Ratio = Math.Min((float)TargetWidth / OriginalWidth, (float)TargetHeight / OriginalHeight);
+            var Ratio = Math.Min((float)TargetWidth / OriginalWidth, (float)TargetHeight / OriginalHeight);
 
             ResizeWidth = OriginalWidth * Ratio;
             ResizeHeight = OriginalHeight * Ratio;
@@ -33,7 +32,7 @@ namespace Screna
         {
             var BMP = ImageSource.Capture();
 
-            var ResizedBMP = new Bitmap(TargetWidth, TargetHeight);
+            var ResizedBMP = new Bitmap(Width, Height);
 
             using (var g = Graphics.FromImage(ResizedBMP))
             {
@@ -42,7 +41,7 @@ namespace Screna
                 g.SmoothingMode = SmoothingMode.HighQuality;
 
                 if (BackgroundColor != Color.Transparent)
-                    g.FillRectangle(new SolidBrush(BackgroundColor), 0, 0, TargetWidth, TargetHeight);
+                    g.FillRectangle(new SolidBrush(BackgroundColor), 0, 0, Width, Height);
 
                 g.DrawImage(BMP, 0, 0, ResizeWidth, ResizeHeight);
             }
@@ -50,10 +49,10 @@ namespace Screna
             return ResizedBMP;
         }
 
-        public int Height => TargetHeight;
+        public int Height { get; }
 
-        public int Width => TargetWidth;
-        
+        public int Width { get; }
+
         public void Dispose() { }
     }
 }

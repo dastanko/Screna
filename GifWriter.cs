@@ -114,8 +114,8 @@ namespace Screna
             // App Extension Header for Repeating
             if (Repeat != -1)
             {
-                unchecked { Writer.Write((short)ApplicationExtensionBlockIdentifier); };
-                Writer.Write((byte)ApplicationBlockSize);
+                unchecked { Writer.Write((short)ApplicationExtensionBlockIdentifier); }
+                Writer.Write(ApplicationBlockSize);
                 Writer.Write(ApplicationIdentification.ToCharArray());
                 Writer.Write((byte)3); // Application block length
                 Writer.Write((byte)1);
@@ -124,7 +124,7 @@ namespace Screna
             }
         }
 
-        void WriteColorTable(Stream sourceGif, BinaryWriter Writer)
+        static void WriteColorTable(Stream sourceGif, BinaryWriter Writer)
         {
             sourceGif.Position = SourceColorBlockPosition; // Locating the image color table
             var colorTable = new byte[SourceColorBlockLength];
@@ -132,26 +132,26 @@ namespace Screna
             Writer.Write(colorTable, 0, colorTable.Length);
         }
 
-        void WriteGraphicControlBlock(Stream sourceGif, BinaryWriter Writer, int frameDelay)
+        static void WriteGraphicControlBlock(Stream sourceGif, BinaryWriter Writer, int frameDelay)
         {
             sourceGif.Position = SourceGraphicControlExtensionPosition; // Locating the source GCE
             var blockhead = new byte[SourceGraphicControlExtensionLength];
             sourceGif.Read(blockhead, 0, blockhead.Length); // Reading source GCE
 
-            unchecked { Writer.Write((short)GraphicControlExtensionBlockIdentifier); }; // Identifier
-            Writer.Write((byte)GraphicControlExtensionBlockSize); // Block Size
+            unchecked { Writer.Write((short)GraphicControlExtensionBlockIdentifier); } // Identifier
+            Writer.Write(GraphicControlExtensionBlockSize); // Block Size
             Writer.Write((byte)(blockhead[3] & 0xf7 | 0x08)); // Setting disposal flag
             Writer.Write((short)(frameDelay / 10)); // Setting frame delay
-            Writer.Write((byte)blockhead[6]); // Transparent color index
+            Writer.Write(blockhead[6]); // Transparent color index
             Writer.Write((byte)0); // Terminator
         }
 
-        void WriteImageBlock(Stream sourceGif, BinaryWriter Writer, bool includeColorTable, int x, int y, int w, int h)
+        static void WriteImageBlock(Stream sourceGif, BinaryWriter Writer, bool includeColorTable, int x, int y, int w, int h)
         {
             sourceGif.Position = SourceImageBlockPosition; // Locating the image block
             var header = new byte[SourceImageBlockHeaderLength];
             sourceGif.Read(header, 0, header.Length);
-            Writer.Write((byte)header[0]); // Separator
+            Writer.Write(header[0]); // Separator
             Writer.Write((short)x); // Position X
             Writer.Write((short)y); // Position Y
             Writer.Write((short)w); // Width
@@ -165,7 +165,7 @@ namespace Screna
             }
             else Writer.Write((byte)(header[9] & 0x07 | 0x07)); // Disabling local color table
 
-            Writer.Write((byte)header[10]); // LZW Min Code Size
+            Writer.Write(header[10]); // LZW Min Code Size
 
             // Read/Write image data
             sourceGif.Position = SourceImageBlockPosition + SourceImageBlockHeaderLength;

@@ -1,5 +1,4 @@
 ﻿using System;
-using Screna.Avi;
 
 namespace Screna.Avi
 {

@@ -17,7 +17,7 @@ namespace Screna.Audio
 
         static string ErrorMessage(MmResult result, string function)
         {
-            return String.Format("{0} calling {1}", result, function);
+            return $"{result} calling {function}";
         }
 
         /// <summary>

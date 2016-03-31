@@ -21,7 +21,7 @@ namespace Screna
                     BMP.Save(PngStream, ImageFormat.Png);
                     var pngClipboardData = new DataObject("PNG", PngStream);
 
-                    using (var whiteS = new Bitmap(BMP.Width, BMP.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb))
+                    using (var whiteS = new Bitmap(BMP.Width, BMP.Height, PixelFormat.Format24bppRgb))
                     {
                         using (var graphics = Graphics.FromImage(whiteS))
                         {
@@ -51,7 +51,7 @@ namespace Screna
             int sizeX = Image.Width,
                 sizeY = Image.Height;
 
-            RECT r = new RECT(-1, -1, -1, -1);
+            var r = new RECT(-1, -1, -1, -1);
 
             using (var b = new UnsafeBitmap(Image))
             {
@@ -153,8 +153,6 @@ namespace Screna
                             x = 0;
                         }
                         else x++;
-
-                        continue;
                     }
                 }
             }
@@ -192,7 +190,7 @@ namespace Screna
 
             var final = new Bitmap(sizeX, sizeY, PixelFormat.Format32bppArgb);
 
-            bool empty = true;
+            var empty = true;
 
             using (var a = new UnsafeBitmap(WhiteBitmap))
             {
@@ -287,24 +285,24 @@ namespace Screna
         /// </param>
         internal static void SplitFrameRate(decimal frameRate, out uint rate, out uint scale)
         {
-            if (Decimal.Round(frameRate) == frameRate)
+            if (decimal.Round(frameRate) == frameRate)
             {
-                rate = (uint)Decimal.Truncate(frameRate);
+                rate = (uint)decimal.Truncate(frameRate);
                 scale = 1;
             }
-            else if (Decimal.Round(frameRate, 1) == frameRate)
+            else if (decimal.Round(frameRate, 1) == frameRate)
             {
-                rate = (uint)Decimal.Truncate(frameRate * 10m);
+                rate = (uint)decimal.Truncate(frameRate * 10m);
                 scale = 10;
             }
-            else if (Decimal.Round(frameRate, 2) == frameRate)
+            else if (decimal.Round(frameRate, 2) == frameRate)
             {
-                rate = (uint)Decimal.Truncate(frameRate * 100m);
+                rate = (uint)decimal.Truncate(frameRate * 100m);
                 scale = 100;
             }
             else
             {
-                rate = (uint)Decimal.Truncate(frameRate * 1000m);
+                rate = (uint)decimal.Truncate(frameRate * 1000m);
                 scale = 1000;
             }
 

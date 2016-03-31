@@ -33,8 +33,8 @@ namespace Screna.Audio
         public Mp3WaveFormat(int SampleRate, int Channels, int BlockSize, int FramesPerBlock = 1, Mp3Padding Padding = Mp3Padding.Off, int EncoderDelay = 0)
             : base(SampleRate, Channels)
         {
-            this.waveFormatTag = WaveFormatEncoding.Mp3;
-            this.extraSize = (short)(4 * sizeof(ushort) + sizeof(uint));
+            waveFormatTag = WaveFormatEncoding.Mp3;
+            extraSize = 4 * sizeof(ushort) + sizeof(uint);
 
             this.BlockSize = (ushort)BlockSize;
             this.EncoderDelay = (ushort)EncoderDelay;

@@ -14,7 +14,7 @@
 
         public AviCodec(string Name)
         {
-            this.FourCC = new FourCC("____");
+            FourCC = new FourCC("____");
             this.Name = Name;
         }
 

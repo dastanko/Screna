@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -25,8 +26,8 @@ namespace Screna.Audio
         /// <returns>The WaveIn device capabilities</returns>
         static WaveInCapabilities GetCapabilities(int devNumber)
         {
-            WaveInCapabilities caps = new WaveInCapabilities();
-            int structSize = Marshal.SizeOf(caps);
+            var caps = new WaveInCapabilities();
+            var structSize = Marshal.SizeOf(caps);
             MmException.Try(WaveInterop.waveInGetDevCaps((IntPtr)devNumber, out caps, structSize), "waveInGetDevCaps");
             return caps;
         }
@@ -40,7 +41,7 @@ namespace Screna.Audio
 
         public static IEnumerable<WaveInDevice> Enumerate()
         {
-            int n = WaveInDevice.DeviceCount;
+            var n = DeviceCount;
 
             for (var i = 0; i < n; i++)
                 yield return new WaveInDevice(i);
@@ -108,21 +109,21 @@ namespace Screna.Audio
         void CreateBuffers()
         {
             // Default to three buffers of 100ms each
-            int bufferSize = BufferMilliseconds * WaveFormat.AverageBytesPerSecond / 1000;
+            var bufferSize = BufferMilliseconds * WaveFormat.AverageBytesPerSecond / 1000;
             if (bufferSize % WaveFormat.BlockAlign != 0)
                 bufferSize -= bufferSize % WaveFormat.BlockAlign;
 
             buffers = new WaveInBuffer[NumberOfBuffers];
-            for (int n = 0; n < buffers.Length; n++)
+            for (var n = 0; n < buffers.Length; n++)
                 buffers[n] = new WaveInBuffer(waveInHandle, bufferSize);
         }
 
         void OpenWaveInDevice()
         {
-            int CallbackEvent = 0x50000;
+            var CallbackEvent = 0x50000;
 
             CloseWaveInDevice();
-            MmResult result = WaveInterop.waveInOpen(out waveInHandle, (IntPtr)DeviceNumber, WaveFormat,
+            var result = WaveInterop.waveInOpen(out waveInHandle, (IntPtr)DeviceNumber, WaveFormat,
                 callbackEvent.SafeWaitHandle.DangerousGetHandle(), IntPtr.Zero, CallbackEvent);
             MmException.Try(result, "waveInOpen");
             CreateBuffers();
@@ -138,7 +139,7 @@ namespace Screna.Audio
             OpenWaveInDevice();
             MmException.Try(WaveInterop.waveInStart(waveInHandle), "waveInStart");
             recording = true;
-            ThreadPool.QueueUserWorkItem((state) => RecordThread(), null);
+            ThreadPool.QueueUserWorkItem(state => RecordThread(), null);
         }
 
         void RecordThread()
@@ -155,27 +156,23 @@ namespace Screna.Audio
 
         void DoRecording()
         {
-            foreach (var buffer in buffers)
-                if (!buffer.InQueue)
-                    buffer.Reuse();
+            foreach (var buffer in buffers.Where(buffer => !buffer.InQueue))
+                buffer.Reuse();
 
             while (recording)
             {
-                if (callbackEvent.WaitOne())
-                {
-                    // requeue any buffers returned to us
-                    if (recording)
-                    {
-                        foreach (var buffer in buffers)
-                        {
-                            if (buffer.Done)
-                            {
-                                DataAvailable?.Invoke(buffer.Data, buffer.BytesRecorded);
+                if (!callbackEvent.WaitOne())
+                    continue;
 
-                                buffer.Reuse();
-                            }
-                        }
-                    }
+                // requeue any buffers returned to us
+                if (!recording)
+                    continue;
+
+                foreach (var buffer in buffers.Where(buffer => buffer.Done))
+                {
+                    DataAvailable?.Invoke(buffer.Data, buffer.BytesRecorded);
+
+                    buffer.Reuse();
                 }
             }
         }
@@ -183,18 +180,20 @@ namespace Screna.Audio
         void RaiseRecordingStoppedEvent(Exception e)
         {
             var handler = RecordingStopped;
-            if (handler != null)
-            {
-                if (this.syncContext == null)
-                    handler(e);
-                else syncContext.Post(state => handler(e), null);
-            }
+
+            if (handler == null)
+                return;
+
+            if (syncContext == null)
+                handler(e);
+
+            else syncContext.Post(state => handler(e), null);
         }
 
         public void Stop()
         {
             recording = false;
-            this.callbackEvent.Set(); // signal the thread to exit
+            callbackEvent.Set(); // signal the thread to exit
             MmException.Try(WaveInterop.waveInStop(waveInHandle), "waveInStop");
         }
 
@@ -224,11 +223,12 @@ namespace Screna.Audio
 
             if (buffers != null)
             {
-                for (int n = 0; n < buffers.Length; n++)
-                    buffers[n].Dispose();
+                foreach (var t in buffers)
+                    t.Dispose();
+
                 buffers = null;
             }
-            
+
             WaveInterop.waveInClose(waveInHandle);
             waveInHandle = IntPtr.Zero;
         }

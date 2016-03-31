@@ -1,5 +1,3 @@
-using System;
-
 namespace Screna.Audio
 {
     /// <summary>

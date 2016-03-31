@@ -22,7 +22,7 @@
     public enum GetWindowLongValue
     {
         GWL_STYLE = -16,
-        GWL_EXSTYLE = -20,
+        GWL_EXSTYLE = -20
     }
 
     public enum WindowsMessage

@@ -22,7 +22,7 @@ namespace Screna.Audio
 
         public override void Start()
         {
-            if (SilencePlayer != null) SilencePlayer.Play();
+            SilencePlayer?.Play();
 
             base.Start();
         }
@@ -31,33 +31,27 @@ namespace Screna.Audio
         {
             base.Stop();
 
-            if (SilencePlayer != null) SilencePlayer.Stop();
+            SilencePlayer?.Stop();
         }
 
         public override void Dispose()
         {
             base.Dispose();
 
-            if (SilencePlayer != null)
-            {
-                SilencePlayer.Dispose();
-                SilencePlayer.Stop();
-            }
+            if (SilencePlayer == null)
+                return;
+
+            SilencePlayer.Dispose();
+            SilencePlayer.Stop();
         }
 
         /// <summary>
         /// Gets the default audio loopback capture device
         /// </summary>
         /// <returns>The default audio loopback capture device</returns>
-        public new static WasapiAudioDevice DefaultDevice
-        {
-            get { return WasapiAudioDevice.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia); }
-        }
+        public new static WasapiAudioDevice DefaultDevice => WasapiAudioDevice.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
 
-        public new static IEnumerable<WasapiAudioDevice> EnumerateDevices()
-        {
-            return WasapiAudioDevice.EnumerateAudioEndPoints(DataFlow.Render);
-        }
+        public new static IEnumerable<WasapiAudioDevice> EnumerateDevices() => WasapiAudioDevice.EnumerateAudioEndPoints(DataFlow.Render);
 
         /// <summary>
         /// Capturing wave format

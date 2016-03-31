@@ -41,7 +41,7 @@ namespace Screna.Avi
         public FourCC(string value)
         {
             valueString = value.PadRight(4);
-            valueDWord = (uint)valueString[0] + ((uint)valueString[1] << 8) + ((uint)valueString[2] << 16) + ((uint)valueString[3] << 24);
+            valueDWord = valueString[0] + ((uint)valueString[1] << 8) + ((uint)valueString[2] << 16) + ((uint)valueString[3] << 24);
         }
 
         /// <summary>
@@ -66,8 +66,9 @@ namespace Screna.Avi
         /// </summary>
         public override bool Equals(object obj)
         {
-            if (obj is FourCC) return (FourCC)obj == this;
-            else return base.Equals(obj);
+            if (obj is FourCC)
+                return (FourCC)obj == this;
+            return base.Equals(obj);
         }
 
         /// <summary>

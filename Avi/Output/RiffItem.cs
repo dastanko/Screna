@@ -7,19 +7,17 @@
     {
         public const int ITEM_HEADER_SIZE = 2 * sizeof(uint);
 
-        readonly long dataStart;
-
         public RiffItem(long dataStart, int dataSize = -1)
         {
-            this.dataStart = dataStart;
-            this.DataSize = dataSize;
+            this.DataStart = dataStart;
+            DataSize = dataSize;
         }
 
-        public long DataStart => dataStart;
+        public long DataStart { get; }
 
-        public long ItemStart => dataStart - ITEM_HEADER_SIZE;
+        public long ItemStart => DataStart - ITEM_HEADER_SIZE;
 
-        public long DataSizeStart => dataStart - sizeof(uint);
+        public long DataSizeStart => DataStart - sizeof(uint);
 
         public int DataSize { get; set; }
 

@@ -78,7 +78,7 @@ namespace Screna.Avi
                 lock (syncWrite)
                 {
                     CheckNotStartedWriting();
-                    framesPerSecond = Decimal.Round(value, 3);
+                    framesPerSecond = decimal.Round(value, 3);
                 }
             }
         }
@@ -405,8 +405,8 @@ namespace Screna.Avi
             fileWriter.Write(0U); // sample size
             fileWriter.Write((short)0); // rectangle left
             fileWriter.Write((short)0); // rectangle top
-            short right = (short)(videoStream != null ? videoStream.Width : 0);
-            short bottom = (short)(videoStream != null ? videoStream.Height : 0);
+            var right = (short)videoStream.Width;
+            var bottom = (short)videoStream.Height;
             fileWriter.Write(right); // rectangle right
             fileWriter.Write(bottom); // rectangle bottom
         }
@@ -452,7 +452,7 @@ namespace Screna.Avi
             {
                 fileWriter.Write(256U); // palette colors used
                 fileWriter.Write(0U); // palette colors important
-                for (int i = 0; i < 256; i++)
+                for (var i = 0; i < 256; i++)
                 {
                     fileWriter.Write((byte)i);
                     fileWriter.Write((byte)i);
@@ -500,9 +500,9 @@ namespace Screna.Avi
         {
             // See AVIMAINHEADER structure
             var chunk = fileWriter.OpenChunk(RIFFChunksFourCCs.AviHeader);
-            fileWriter.Write((uint)Decimal.Round(1000000m / FramesPerSecond)); // microseconds per frame
+            fileWriter.Write((uint)decimal.Round(1000000m / FramesPerSecond)); // microseconds per frame
             // TODO: More correct computation of byterate
-            fileWriter.Write((uint)Decimal.Truncate(FramesPerSecond * streamsInfo.Sum(s => s.MaxChunkDataSize))); // max bytes per second
+            fileWriter.Write((uint)decimal.Truncate(FramesPerSecond * streamsInfo.Sum(s => s.MaxChunkDataSize))); // max bytes per second
             fileWriter.Write(0U); // padding granularity
             var flags = MainHeaderFlags.IsInterleaved | MainHeaderFlags.TrustChunkType;
             if (emitIndex1) flags |= MainHeaderFlags.HasIndex;
@@ -634,10 +634,7 @@ namespace Screna.Avi
                 return true;
 
             // Check relative offset
-            if (index.Count > 0 && fileWriter.BaseStream.Position - index[0].DataOffset > uint.MaxValue)
-                return true;
-
-            return false;
+            return index.Count > 0 && fileWriter.BaseStream.Position - index[0].DataOffset > uint.MaxValue;
         }
 
         void FlushStreamIndex(IAviStreamInternal stream)

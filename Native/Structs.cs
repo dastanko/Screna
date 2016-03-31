@@ -37,7 +37,7 @@ namespace Screna.Native
 
         public RECT(int Left, int Top, int Right, int Bottom)
         {
-            this = new RECT()
+            this = new RECT
             {
                 Left = Left,
                 Top = Top,
@@ -65,7 +65,7 @@ namespace Screna.Native
         enum HookId
         {
             LowLevelMouse = 14,
-            LowLevelKeyboard = 13,
+            LowLevelKeyboard = 13
         }
 
         public static HookResult HookGlobalMouse(Callback callback) => HookGlobal(HookId.LowLevelMouse, callback);
@@ -95,9 +95,7 @@ namespace Screna.Native
             var callbackData = new CallbackData(wParam, lParam);
             var continueProcessing = callback(callbackData);
 
-            if (!continueProcessing) return new IntPtr(-1);
-
-            return CallNextHookEx(nCode, wParam, lParam);
+            return !continueProcessing ? new IntPtr(-1) : CallNextHookEx(nCode, wParam, lParam);
         }
 
         static IntPtr CallNextHookEx(int nCode, IntPtr wParam, IntPtr lParam)
@@ -116,7 +114,7 @@ namespace Screna.Native
     {
         static bool _closing;
 
-        static HookProcedureHandle() { Application.ApplicationExit += (sender, e) => { _closing = true; }; }
+        static HookProcedureHandle() { Application.ApplicationExit += (sender, e) => _closing = true; }
 
         public HookProcedureHandle() : base(true) { }
 
@@ -130,20 +128,17 @@ namespace Screna.Native
 
     public class HookResult : IDisposable
     {
-        readonly HookProcedureHandle m_Handle;
-        readonly HookProcedure m_Procedure;
-
         public HookResult(HookProcedureHandle handle, HookProcedure procedure)
         {
-            m_Handle = handle;
-            m_Procedure = procedure;
+            Handle = handle;
+            Procedure = procedure;
         }
 
-        public HookProcedureHandle Handle => m_Handle;
+        public HookProcedureHandle Handle { get; }
 
-        public HookProcedure Procedure => m_Procedure;
+        public HookProcedure Procedure { get; }
 
-        public void Dispose() => m_Handle.Dispose();
+        public void Dispose() => Handle.Dispose();
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -175,7 +170,7 @@ namespace Screna.Native
 
         public static KeyboardState GetCurrent()
         {
-            byte[] keyboardStateNative = new byte[256];
+            var keyboardStateNative = new byte[256];
             User32.GetKeyboardState(keyboardStateNative);
             return new KeyboardState(keyboardStateNative);
         }
@@ -188,9 +183,9 @@ namespace Screna.Native
 
         byte GetKeyState(Keys key)
         {
-            int virtualKeyCode = (int)key;
+            var virtualKeyCode = (int)key;
             if (virtualKeyCode < 0 || virtualKeyCode > 255)
-                throw new ArgumentOutOfRangeException("key", key, "The value must be between 0 and 255.");
+                throw new ArgumentOutOfRangeException(nameof(key), key, "The value must be between 0 and 255.");
             return m_KeyboardStateNative[virtualKeyCode];
         }
 

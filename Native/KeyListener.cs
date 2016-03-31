@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Screna.Native;
 
 namespace Screna.Native
 {
@@ -45,8 +44,8 @@ namespace Screna.Native
             return !eDownUp.Handled;
         }
 
-        IEnumerable<KeyPressEventArgsExt> GetPressEventArgs(CallbackData data) => KeyPressEventArgsExt.FromRawDataGlobal(data);
+        static IEnumerable<KeyPressEventArgsExt> GetPressEventArgs(CallbackData data) => KeyPressEventArgsExt.FromRawDataGlobal(data);
 
-        KeyEventArgsExt GetDownUpEventArgs(CallbackData data) => KeyEventArgsExt.FromRawDataGlobal(data);
+        static KeyEventArgsExt GetDownUpEventArgs(CallbackData data) => KeyEventArgsExt.FromRawDataGlobal(data);
     }
 }

@@ -35,7 +35,7 @@ namespace Screna
                 Region.Left, Region.Top,
                 CopyPixelOperation.SourceCopy | CopyPixelOperation.CaptureBlt);
 
-            Bitmap bmp = Image.FromHbitmap(hBmp);
+            var bmp = Image.FromHbitmap(hBmp);
 
             Gdi32.SelectObject(hDest, hOldBmp);
             Gdi32.DeleteObject(hBmp);
@@ -68,7 +68,7 @@ namespace Screna
 
         public static unsafe Bitmap CaptureTransparent(IntPtr WindowHandle, bool IncludeCursor = false)
         {
-            Color tmpColour = Color.White;
+            var tmpColour = Color.White;
 
             var backdrop = new Form
             {
@@ -85,7 +85,7 @@ namespace Screna
                 // DwmGetWindowAttribute() failed, usually means Aero is disabled so we fall back to GetWindowRect()
                 User32.GetWindowRect(WindowHandle, out r);
 
-            Rectangle R = r.ToRectangle();
+            var R = r.ToRectangle();
 
             // Add a 100px margin for window shadows. Excess transparency is trimmed out later
             R.Inflate(100, 100);
@@ -112,7 +112,7 @@ namespace Screna
                 {
                     backdrop.Dispose();
 
-                    Bitmap transparentImage = Extensions.DifferentiateAlpha(whiteShot, blackShot);
+                    var transparentImage = Extensions.DifferentiateAlpha(whiteShot, blackShot);
                     if (IncludeCursor)
                         new MouseCursor().Draw(transparentImage, R.Location);
                     return transparentImage.CropEmptyEdges();
@@ -122,10 +122,10 @@ namespace Screna
 
         public static Bitmap CaptureTransparent(IntPtr hWnd, bool IncludeCursor, bool DoResize, int ResizeWidth, int ResizeHeight)
         {
-            IntPtr StartButtonHandle = User32.FindWindow("Button", "Start");
-            IntPtr TaskbarHandle = User32.FindWindow("Shell_TrayWnd", null);
+            var StartButtonHandle = User32.FindWindow("Button", "Start");
+            var TaskbarHandle = User32.FindWindow("Shell_TrayWnd", null);
 
-            bool CanResize = DoResize && User32.GetWindowLong(hWnd, GetWindowLongValue.GWL_STYLE).HasFlag(WindowStyles.WS_SIZEBOX);
+            var CanResize = DoResize && User32.GetWindowLong(hWnd, GetWindowLongValue.GWL_STYLE).HasFlag(WindowStyles.WS_SIZEBOX);
 
             try
             {
@@ -161,9 +161,9 @@ namespace Screna
                     Thread.Sleep(100);
                 }
 
-                Bitmap s = CaptureTransparent(hWnd, IncludeCursor);
+                var s = CaptureTransparent(hWnd, IncludeCursor);
 
-                Rectangle R = r.ToRectangle();
+                var R = r.ToRectangle();
 
                 if (CanResize)
                     User32.SetWindowPos(hWnd, IntPtr.Zero,
@@ -197,7 +197,7 @@ namespace Screna
                 Region.Left, Region.Top,
                 CopyPixelOperation.SourceCopy | CopyPixelOperation.CaptureBlt);
 
-            Bitmap bmp = Image.FromHbitmap(hBmp);
+            var bmp = Image.FromHbitmap(hBmp);
 
             Gdi32.SelectObject(hDest, hOldBmp);
             Gdi32.DeleteObject(hBmp);

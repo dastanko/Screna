@@ -52,7 +52,7 @@ namespace Screna.Avi
         /// <summary>
         /// Number of bits per pixel in encoded image.
         /// </summary>
-        public BitsPerPixel BitsPerPixel => Screna.Avi.BitsPerPixel.Bpp24;
+        public BitsPerPixel BitsPerPixel => BitsPerPixel.Bpp24;
 
         /// <summary>
         /// Maximum size of encoded frmae.

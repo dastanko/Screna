@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,7 +22,7 @@ namespace Screna
         {
             // Init Fields
             this.ImageProvider = ImageProvider;
-            this.VideoEncoder = Encoder;
+            VideoEncoder = Encoder;
 
             // RecordThread Init
             if (ImageProvider != null)
@@ -35,14 +34,14 @@ namespace Screna
 
 
             // Not Actually Started, Waits for ContinueThread to be Set
-            if (RecordThread != null) RecordThread.Start();
+            RecordThread?.Start();
         }
 
         public event Action<Exception> RecordingStopped;
 
         public void Start(int Delay = 0)
         {
-            new Thread(new ParameterizedThreadStart((e) =>
+            new Thread(e =>
             {
                 try
                 {
@@ -51,13 +50,13 @@ namespace Screna
                     if (RecordThread != null) ContinueCapturing.Set();
                 }
                 catch (Exception E) { RecordingStopped?.Invoke(E); }
-            })).Start(Delay);
+            }).Start(Delay);
         }
 
         public void Stop()
         {
             // Resume if Paused
-            if (ContinueCapturing != null) ContinueCapturing.Set();
+            ContinueCapturing?.Set();
 
             // Video
             if (RecordThread != null)
@@ -104,15 +103,14 @@ namespace Screna
         {
             try
             {
-                DateTime LastFrameWriteTime = DateTime.MinValue;
-                Bitmap Frame = null;
+                var LastFrameWriteTime = DateTime.MinValue;
                 Task LastFrameWriteTask = null;
 
                 while (!StopCapturing.WaitOne(0) && ContinueCapturing.WaitOne())
                 {
-                    Frame = ImageProvider.Capture();
+                    var Frame = ImageProvider.Capture();
 
-                    int Delay = LastFrameWriteTime == DateTime.MinValue ? 0
+                    var Delay = LastFrameWriteTime == DateTime.MinValue ? 0
                         : (int)(DateTime.Now - LastFrameWriteTime).TotalMilliseconds;
 
                     LastFrameWriteTime = DateTime.Now;

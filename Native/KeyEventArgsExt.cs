@@ -47,8 +47,8 @@ namespace Screna.Native
             var keyData = AppendModifierStates((Keys)keyboardHookStruct.VirtualKeyCode);
 
             var keyCode = (WindowsMessage)wParam;
-            bool isKeyDown = (keyCode == WindowsMessage.WM_KEYDOWN || keyCode == WindowsMessage.WM_SYSKEYDOWN);
-            bool isKeyUp = (keyCode == WindowsMessage.WM_KEYUP || keyCode == WindowsMessage.WM_SYSKEYUP);
+            var isKeyDown = (keyCode == WindowsMessage.WM_KEYDOWN || keyCode == WindowsMessage.WM_SYSKEYDOWN);
+            var isKeyUp = (keyCode == WindowsMessage.WM_KEYUP || keyCode == WindowsMessage.WM_SYSKEYUP);
 
             return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp);
         }
@@ -64,11 +64,11 @@ namespace Screna.Native
         static Keys AppendModifierStates(Keys keyData)
         {
             // Is Control being held down?
-            bool control = CheckModifier(User32.VK_CONTROL);
+            var control = CheckModifier(User32.VK_CONTROL);
             // Is Shift being held down?
-            bool shift = CheckModifier(User32.VK_SHIFT);
+            var shift = CheckModifier(User32.VK_SHIFT);
             // Is Alt being held down?
-            bool alt = CheckModifier(User32.VK_MENU);
+            var alt = CheckModifier(User32.VK_MENU);
 
             // Windows keys
             // # combine LWin and RWin key with other keys will potentially corrupt the data

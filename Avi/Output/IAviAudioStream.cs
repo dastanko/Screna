@@ -1,5 +1,4 @@
 ﻿using Screna.Audio;
-using System;
 using System.Threading.Tasks;
 
 namespace Screna.Avi

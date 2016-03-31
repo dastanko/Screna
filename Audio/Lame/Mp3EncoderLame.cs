@@ -23,7 +23,7 @@ namespace Screna.Audio
         /// <remarks>
         /// Currently supported are 64, 96, 128, 160, 192 and 320 kbps.
         /// </remarks>
-        public static readonly int[] SupportedBitRates = new[] { 64, 96, 128, 160, 192, 320 };
+        public static readonly int[] SupportedBitRates = { 64, 96, 128, 160, 192, 320 };
 
         #region Loading LAME DLL
         static Type LameFacadeType;
@@ -45,7 +45,7 @@ namespace Screna.Audio
                 var LoadResult = LoadLibrary(LameDllPath);
 
                 if (LoadResult == IntPtr.Zero)
-                    throw new DllNotFoundException(string.Format("Library '{0}' could not be loaded.", LameDllPath));
+                    throw new DllNotFoundException($"Library '{LameDllPath}' could not be loaded.");
             }
 
             var FacadeAssembly = GenerateLameFacadeAssembly(LibraryName);
@@ -57,7 +57,7 @@ namespace Screna.Audio
             var ThisAssembly = typeof(Mp3EncoderLame).Assembly;
             var CSCompiler = new Microsoft.CSharp.CSharpCodeProvider();
 
-            var CompilerOptions = new System.CodeDom.Compiler.CompilerParameters()
+            var CompilerOptions = new System.CodeDom.Compiler.CompilerParameters
             {
                 GenerateInMemory = true,
                 GenerateExecutable = false,
@@ -86,7 +86,7 @@ namespace Screna.Audio
                 SourceReader.Close();
             }
 
-            var LameDllNameLiteral = string.Format("\"{0}\"", LameDllName);
+            var LameDllNameLiteral = $"\"{LameDllName}\"";
             SourceCode = SourceCode.Replace("\"lame_enc.dll\"", LameDllNameLiteral);
 
             return SourceCode;
@@ -119,7 +119,7 @@ namespace Screna.Audio
         public Mp3EncoderLame(int ChannelCount = 1, int SampleRate = 44100, int outputBitRateKbps = 160)
         {
             if (LameFacadeType == null)
-                Load(Path.Combine(Environment.CurrentDirectory, string.Format("lameenc{0}.dll", Environment.Is64BitProcess ? 64 : 32)));
+                Load(Path.Combine(Environment.CurrentDirectory, $"lameenc{(Environment.Is64BitProcess ? 64 : 32)}.dll"));
 
             LameFacade = (ILameFacade)Activator.CreateInstance(LameFacadeType);
             LameFacade.ChannelCount = ChannelCount;
@@ -137,7 +137,7 @@ namespace Screna.Audio
         public void Dispose()
         {
             var LameDisposable = LameFacade as IDisposable;
-            if (LameDisposable != null) LameDisposable.Dispose();
+            LameDisposable?.Dispose();
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Screna.Audio
             var MaxLength = GetMaxEncodedLength(sourceCount);
             if (Buffer != null && Buffer.Length >= MaxLength) return;
 
-            var NewLength = Buffer == null ? 1024 : Buffer.Length * 2;
+            var NewLength = Buffer?.Length * 2 ?? 1024;
             while (NewLength < MaxLength) NewLength *= 2;
 
             Buffer = new byte[NewLength];

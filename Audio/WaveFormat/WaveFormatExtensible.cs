@@ -28,7 +28,7 @@ namespace Screna.Audio
             extraSize = 22;
             wValidBitsPerSample = (short)bits;
 
-            for (int i = 0; i < channels; i++)
+            for (var i = 0; i < channels; i++)
                 dwChannelMask |= (1 << i);
 
             subFormat = bits == 32 ? MEDIASUBTYPE_IEEE_FLOAT : MEDIASUBTYPE_PCM;
@@ -42,7 +42,7 @@ namespace Screna.Audio
             base.Serialize(writer);
             writer.Write(wValidBitsPerSample);
             writer.Write(dwChannelMask);
-            byte[] guid = subFormat.ToByteArray();
+            var guid = subFormat.ToByteArray();
             writer.Write(guid, 0, guid.Length);
         }
     }

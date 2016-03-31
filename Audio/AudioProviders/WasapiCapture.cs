@@ -95,22 +95,16 @@ namespace Screna.Audio
         /// Gets the default audio capture device
         /// </summary>
         /// <returns>The default audio capture device</returns>
-        public static WasapiAudioDevice DefaultDevice
-        {
-            get { return WasapiAudioDevice.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console); }
-        }
+        public static WasapiAudioDevice DefaultDevice => WasapiAudioDevice.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Console);
 
-        public static IEnumerable<WasapiAudioDevice> EnumerateDevices()
-        {
-            return WasapiAudioDevice.EnumerateAudioEndPoints(DataFlow.Capture);
-        }
+        public static IEnumerable<WasapiAudioDevice> EnumerateDevices() => WasapiAudioDevice.EnumerateAudioEndPoints(DataFlow.Capture);
 
         void Init()
         {
             if (initialized)
                 return;
 
-            long requestedDuration = ReftimesPerMillisec * audioBufferMillisecondsLength;
+            var requestedDuration = ReftimesPerMillisec * audioBufferMillisecondsLength;
 
             if (!audioClient.IsFormatSupported(AudioClientShareMode.Shared, waveFormat))
                 throw new ArgumentException("Unsupported Wave Format");
@@ -124,7 +118,7 @@ namespace Screna.Audio
                 waveFormat,
                 Guid.Empty);
             
-            int bufferFrameCount = audioClient.BufferSize;
+            var bufferFrameCount = audioClient.BufferSize;
             bytesPerFrame = waveFormat.Channels * waveFormat.BitsPerSample / 8;
             recordBuffer = new byte[bufferFrameCount * bytesPerFrame];
 
@@ -178,10 +172,10 @@ namespace Screna.Audio
 
         void DoRecording(AudioClient client)
         {
-            int bufferFrameCount = client.BufferSize;
+            var bufferFrameCount = client.BufferSize;
 
             // Calculate the actual duration of the allocated buffer.
-            long actualDuration = (long)((double)ReftimesPerSec *
+            var actualDuration = (long)((double)ReftimesPerSec *
                              bufferFrameCount / waveFormat.SampleRate);
 
             int sleepMilliseconds = (int)(actualDuration / ReftimesPerMillisec / 2),
@@ -219,19 +213,19 @@ namespace Screna.Audio
             while (packetSize != 0)
             {
                 int framesAvailable, flags;
-                IntPtr buffer = capture.GetBuffer(out framesAvailable, out flags);
+                var buffer = capture.GetBuffer(out framesAvailable, out flags);
 
-                int bytesAvailable = framesAvailable * bytesPerFrame;
+                var bytesAvailable = framesAvailable * bytesPerFrame;
 
                 // apparently it is sometimes possible to read more frames than we were expecting?
-                int spaceRemaining = Math.Max(0, recordBuffer.Length - recordBufferOffset);
+                var spaceRemaining = Math.Max(0, recordBuffer.Length - recordBufferOffset);
                 if (spaceRemaining < bytesAvailable && recordBufferOffset > 0)
                 {
-                    if (DataAvailable != null) DataAvailable(recordBuffer, recordBufferOffset);
+                    DataAvailable?.Invoke(recordBuffer, recordBufferOffset);
                     recordBufferOffset = 0;
                 }
 
-                int AudioClientBufferFlags_Silent = 0x2;
+                var AudioClientBufferFlags_Silent = 0x2;
 
                 // if not silence...
                 if ((flags & AudioClientBufferFlags_Silent) != AudioClientBufferFlags_Silent)
@@ -256,11 +250,11 @@ namespace Screna.Audio
                 captureThread = null;
             }
 
-            if (audioClient != null)
-            {
-                audioClient.Dispose();
-                audioClient = null;
-            }
+            if (audioClient == null)
+                return;
+
+            audioClient.Dispose();
+            audioClient = null;
         }
 
         public bool IsSynchronizable => false;

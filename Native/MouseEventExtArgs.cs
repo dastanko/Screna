@@ -69,7 +69,7 @@ namespace Screna.Native
             var wParam = data.WParam;
             var lParam = data.LParam;
 
-            MouseStruct marshalledMouseStruct = (MouseStruct)Marshal.PtrToStructure(lParam, typeof(MouseStruct));
+            var marshalledMouseStruct = (MouseStruct)Marshal.PtrToStructure(lParam, typeof(MouseStruct));
             return FromRawDataUniversal(wParam, marshalledMouseStruct);
         }
 
@@ -81,12 +81,12 @@ namespace Screna.Native
         /// <returns>A new MouseEventExtArgs object.</returns>
         static MouseEventExtArgs FromRawDataUniversal(IntPtr wParam, MouseStruct mouseInfo)
         {
-            MouseButtons button = MouseButtons.None;
+            var button = MouseButtons.None;
             short mouseDelta = 0;
-            int clickCount = 0;
+            var clickCount = 0;
 
-            bool isMouseKeyDown = false;
-            bool isMouseKeyUp = false;
+            var isMouseKeyDown = false;
+            var isMouseKeyUp = false;
 
 
             switch ((WindowsMessage)wParam)

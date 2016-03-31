@@ -51,7 +51,7 @@ namespace Screna.Audio
         public void Initialize(AudioClientShareMode shareMode, int streamFlags, long bufferDuration, long periodicity, WaveFormat waveFormat, Guid audioSessionGuid)
         {
             this.shareMode = shareMode;
-            int hresult = audioClientInterface.Initialize(shareMode, streamFlags, bufferDuration, periodicity, waveFormat, ref audioSessionGuid);
+            var hresult = audioClientInterface.Initialize(shareMode, streamFlags, bufferDuration, periodicity, waveFormat, ref audioSessionGuid);
             Marshal.ThrowExceptionForHR(hresult);
             // may have changed the mix format so reset it
             mixFormat = null;
@@ -145,7 +145,7 @@ namespace Screna.Audio
         /// <returns>True if the format is supported</returns>
         public bool IsFormatSupported(AudioClientShareMode shareMode, WaveFormat desiredFormat, out WaveFormatExtensible closestMatchFormat)
         {
-            int hresult = audioClientInterface.IsFormatSupported(shareMode, desiredFormat, out closestMatchFormat);
+            var hresult = audioClientInterface.IsFormatSupported(shareMode, desiredFormat, out closestMatchFormat);
             
             const int UnsupportedFormat = unchecked((int)0x88890008);
 

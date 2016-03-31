@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Screna.Native;
 
 namespace Screna.Native
 {
@@ -101,8 +100,15 @@ namespace Screna.Native
                 m_DoubleDown.Remove(e.Button);
             }
 
-            if (e.Clicks == 2) StopDoubleClickWaiting();
-            else if (e.Clicks == 1) StartDoubleClickWaiting(e);
+            switch (e.Clicks)
+            {
+                case 2:
+                    StopDoubleClickWaiting();
+                    break;
+                case 1:
+                    StartDoubleClickWaiting(e);
+                    break;
+            }
         }
 
         void ProcessMove(ref MouseEventExtArgs e)

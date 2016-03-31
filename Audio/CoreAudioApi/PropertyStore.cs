@@ -55,9 +55,9 @@ namespace Screna.Audio
             get
             {
                 PropString result;
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
-                    PropertyKey ikey = Get(i);
+                    var ikey = Get(i);
 
                     if (ikey.Equals(key))
                     {

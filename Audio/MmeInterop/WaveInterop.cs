@@ -6,7 +6,7 @@ namespace Screna.Audio
     class WaveInterop
     {
         [DllImport("winmm.dll")]
-        public static extern Int32 waveInGetNumDevs();
+        public static extern int waveInGetNumDevs();
 
         [DllImport("winmm.dll", CharSet = CharSet.Auto)]
         public static extern MmResult waveInGetDevCaps(IntPtr deviceID, out WaveInCapabilities waveInCaps, int waveInCapsSize);

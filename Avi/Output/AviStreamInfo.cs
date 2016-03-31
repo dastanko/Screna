@@ -5,14 +5,13 @@ namespace Screna.Avi
 {
     class StreamInfo
     {
-        readonly FourCC standardIndexChunkId;
         readonly List<StandardIndexEntry> standardIndex = new List<StandardIndexEntry>();
         readonly List<SuperIndexEntry> superIndex = new List<SuperIndexEntry>();
         readonly List<Index1Entry> index1 = new List<Index1Entry>();
 
         public StreamInfo(FourCC standardIndexChunkId)
         {
-            this.standardIndexChunkId = standardIndexChunkId;
+            this.StandardIndexChunkId = standardIndexChunkId;
             FrameCount = 0;
             MaxChunkDataSize = 0;
             TotalDataSize = 0;
@@ -30,7 +29,7 @@ namespace Screna.Avi
 
         public IList<Index1Entry> Index1 => index1;
 
-        public FourCC StandardIndexChunkId => standardIndexChunkId;
+        public FourCC StandardIndexChunkId { get; }
 
         public void OnFrameWritten(int chunkDataSize)
         {

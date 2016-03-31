@@ -14,55 +14,53 @@ namespace Screna.Avi
     {
         protected AudioStreamWrapperBase(IAviAudioStreamInternal baseStream)
         {
-            this.baseStream = baseStream;
+            this.BaseStream = baseStream;
         }
 
-        protected IAviAudioStreamInternal BaseStream => baseStream;
-        readonly IAviAudioStreamInternal baseStream;
+        protected IAviAudioStreamInternal BaseStream { get; }
 
         public virtual void Dispose()
         {
-            var baseStreamDisposable = baseStream as IDisposable;
-            if (baseStreamDisposable != null)
-                baseStreamDisposable.Dispose();
+            var baseStreamDisposable = BaseStream as IDisposable;
+            baseStreamDisposable?.Dispose();
         }
 
         public virtual WaveFormat WaveFormat
         {
-            get { return baseStream.WaveFormat; }
-            set { baseStream.WaveFormat = value; }
+            get { return BaseStream.WaveFormat; }
+            set { BaseStream.WaveFormat = value; }
         }
 
         public virtual void WriteBlock(byte[] data, int startIndex, int length)
         {
-            baseStream.WriteBlock(data, startIndex, length);
+            BaseStream.WriteBlock(data, startIndex, length);
         }
 
         public virtual Task WriteBlockAsync(byte[] data, int startIndex, int length)
         {
-            return baseStream.WriteBlockAsync(data, startIndex, length);
+            return BaseStream.WriteBlockAsync(data, startIndex, length);
         }
 
-        public int BlocksWritten => baseStream.BlocksWritten;
+        public int BlocksWritten => BaseStream.BlocksWritten;
 
-        public int Index => baseStream.Index;
+        public int Index => BaseStream.Index;
 
         public virtual string Name
         {
-            get { return baseStream.Name; }
-            set { baseStream.Name = value; }
+            get { return BaseStream.Name; }
+            set { BaseStream.Name = value; }
         }
 
-        public FourCC StreamType => baseStream.StreamType;
+        public FourCC StreamType => BaseStream.StreamType;
 
-        public FourCC ChunkId => baseStream.ChunkId;
+        public FourCC ChunkId => BaseStream.ChunkId;
 
-        public virtual void PrepareForWriting() => baseStream.PrepareForWriting();
+        public virtual void PrepareForWriting() => BaseStream.PrepareForWriting();
 
-        public virtual void FinishWriting() => baseStream.FinishWriting();
+        public virtual void FinishWriting() => BaseStream.FinishWriting();
 
-        public void WriteHeader() => baseStream.WriteHeader();
+        public void WriteHeader() => BaseStream.WriteHeader();
 
-        public void WriteFormat() => baseStream.WriteFormat();
+        public void WriteFormat() => BaseStream.WriteFormat();
     }
 }

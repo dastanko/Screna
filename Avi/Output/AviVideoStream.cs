@@ -19,7 +19,7 @@ namespace Screna.Avi
             this.width = width;
             this.height = height;
             this.bitsPerPixel = bitsPerPixel;
-            this.streamCodec = AviCodec.Uncompressed.FourCC;
+            streamCodec = AviCodec.Uncompressed.FourCC;
         }
 
 

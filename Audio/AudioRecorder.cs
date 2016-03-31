@@ -17,15 +17,17 @@ namespace Screna.Audio
             syncContext = SynchronizationContext.Current;
 
             AudioProvider.DataAvailable += (data, length) => Writer.Write(data, 0, length);
-            AudioProvider.RecordingStopped += (e) =>
+            AudioProvider.RecordingStopped += e =>
             {
                 var handler = RecordingStopped;
 
-                if (handler != null)
-                {
-                    if (syncContext != null) syncContext.Post((s) => handler(e), null);
-                    else handler(e);
-                }
+                if (handler == null)
+                    return;
+
+                if (syncContext != null)
+                    syncContext.Post(s => handler(e), null);
+
+                else handler(e);
             };
         }
 
